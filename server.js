@@ -41,11 +41,12 @@ function handelHome(req, res) {
 }
 
 function handleHome(req, res) {
-  getFlightPrice('AMM').then( returnedData => {
-    res.send(returnedData);
-  }).catch((err) => {
-    console.log(err.message);
-  });
+    res.render('./index.ejs');
+//   getFlightPrice('AMM').then( returnedData => {
+//     res.send(returnedData);
+//   }).catch((err) => {
+//     console.log(err.message);
+//   });
 }
 
 
@@ -60,7 +61,7 @@ function getFlightPrice(airPort) {
 
   return superagent.get(encodeURI(url))
     .query(qs)
-    .set('AUTHORIZATION', `Bearer 9Vutg0l1mLIPEpCDEQGjaYfaDdH4`)
+    .set('AUTHORIZATION', `Bearer ${process.env.FLIGHT_API_KEY}`)
     .then(locationReesult => {
       return locationReesult.body.data[0].price.total;
     }).catch((err) => {
