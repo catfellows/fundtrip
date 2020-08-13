@@ -56,11 +56,24 @@ function handleHome(req, res) {
 
 function getResults(req, res) {
   let location_id = req.body.place_name;
-  getRestaurant(location_id, '10951').then( returnedData => {
-    res.send(returnedData);
-  }).catch((err) => {
-    console.log(err.message);
-  });
+
+  (async () => {
+    try {
+        let result = await getRestaurant(location_id, '10951');
+        let flight = await getFlightPrice('AMM');
+        res.send({result, flight});
+    } catch (error) {
+        console.error(error);
+    }
+    })();
+
+//   let restaurant = getRestaurant(location_id, '10951').then( returnedData => {
+//     return (returnedData);
+//   }).catch((err) => {
+//     console.log(err.message);
+//   });
+
+//   res.send(result);
 }
 
 function getFlightPrice(airPort) {
