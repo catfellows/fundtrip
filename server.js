@@ -14,8 +14,13 @@ const client = new pg.Client(process.env.DATABASE_URL);
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 
+app.use(express.urlencoded({
+    extended: true
+  }));
+
 app.get('/', handleHome);
 app.get('/flight', getFlightPrice);
+app.post('/result',getcode)
 
 app.get('/*', handleError);
 
@@ -53,12 +58,12 @@ function handleHome(req, res) {
 }
 
 
-function getFlightPrice(airPort) {
+function getFlightPrice(airPort,flightDate,adult) {
   let qs = {
-    originLocationCode: airPort,
-    destinationLocationCode: 'BKK',
-    departureDate: '2021-02-01',
-    adults: '1',
+    originLocationCode: 'AMM',
+    destinationLocationCode: airPort,
+    departureDate: flightDate ,
+    adults: adult,
   }
   let url = `https://test.api.amadeus.com/v2/shopping/flight-offers`;
 
@@ -71,6 +76,23 @@ function getFlightPrice(airPort) {
       console.log(err.message);
     });
 }
+
+function getcode(req,res){
+  let qs={
+    query:req.body.place_name,
+  }
+  let url = "https://tripadvisor1.p.rapidapi.com/airports/search"
+  return superagent.get(url).query(qs)
+  .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
+  .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
+  .set('useQueryString', true)
+  .then(result=>{
+    return result.body[0].code;
+  }).catch((err) => {
+    console.log(err.message);
+  });
+}
+
 
 function handleError(err, res) {
   console.error(err);

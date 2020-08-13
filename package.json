@@ -1,7 +1,7 @@
 {
   "name": "fundtrip",
   "version": "1.0.0",
-  "description": "",
+  "description": "This application will list the best travel plane based on the user budget.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -26,5 +26,7 @@
     "nodemon": "^2.0.4",
     "pg": "^8.3.0",
     "superagent": "^6.0.0"
-  }
+  },
+  "devDependencies": {},
+  "keywords": []
 }
