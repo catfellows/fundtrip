@@ -4,12 +4,21 @@ require('dotenv').config();
 // Deefine the constant
 const express = require('express');
 const app = express();
-const superagent = require('superagent')
+const cors=require('cors');
+const superagent = require('superagent');
 const PORT = process.env.PORT || 3000;
 // const pg = require('pg');
 
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
+app.use(cors());
+
+app.use(express.urlencoded({
+  extended: true
+}));
+
+
+
 
 app.use(express.urlencoded({
   extended: true
@@ -17,15 +26,28 @@ app.use(express.urlencoded({
 
 app.get('/', handleHome);
 app.get('/flight', getFlightPrice);
-app.post('/result', getResults);
+//app.post('/result', getResults);
+app.post('/result',handelLocationresults);
+
 
 app.get('/*', handleError);
 
-function handelHome(req, res) {
-  let locationName = 'Amman';
+
+function handelLocationresults(req,res){
+  let locationName = req.body.place_name;
+
+  handelLocation(locationName).then(returndata=>{
+    
+    res.send(returndata);
+  });
+
+}
+
+function handelLocation(locationName) {
+  
   let qs = {
     location_id: '1',
-    limit: '10',
+    limit: '1',
     sort: 'relevance',
     offset: '0',
     lang: 'en_US',
@@ -35,15 +57,28 @@ function handelHome(req, res) {
   }
   let url = `https://tripadvisor1.p.rapidapi.com/locations/search`;
 
-  superagent.get(encodeURI(url))
+ return superagent.get(encodeURI(url))
     .query(qs)
     .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
     .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
     .set('useQueryString', true)
     .then(locationReesult => {
-      res.send(locationReesult.body.data[0].result_object);
+
+      return new Location(locationReesult.body.data[0].result_object)
+
     });
 }
+
+
+
+
+
+
+
+
+
+
+
 
 function handleHome(req, res) {
   res.render('./index.ejs');
@@ -89,8 +124,10 @@ function getFlightPrice(airPort) {
     .query(qs)
     .set('AUTHORIZATION', `Bearer ${process.env.FLIGHT_API_KEY}`)
     .then(locationReesult => {
+      
       return locationReesult.body.data[0].price.total;
     }).catch((err) => {
+      
       console.log(err.message);
     });
 }
@@ -127,15 +164,18 @@ function handleError(err, res) {
 }
 
 
+
+
 // Constructors
 
 // Location
 function Location(data) {
-  this.name = data;
+  this.name =  data.name;
   this.location_id = data.location_id;
   this.latitude = data.latitude;
   this.longitude = data.longitude;
   this.location_string = data.location_string;
+  this.img=data.photo.images.original.url;
   this.geo_description = data.geo_description;
 }
 
