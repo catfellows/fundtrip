@@ -14,7 +14,7 @@ const client = new pg.Client(process.env.DATABASE_URL);
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 
-app.get('/', handelHome);
+app.get('/', handleHome);
 app.get('/flight', getFlightPrice);
 
 app.get('/*', handleError);
@@ -43,23 +43,32 @@ function handelHome(req, res) {
     });
 }
 
-function getFlightPrice(req, res) {
-  let Airplan = 'AMM';
+function handleHome(req, res) {
+  getFlightPrice('AMM').then( returnedData => {
+    res.send(returnedData);
+  }).catch((err) => {
+    console.log(err.message);
+  });
+}
+
+
+function getFlightPrice(airPort) {
   let qs = {
-    originLocationCode: Airplan,
+    originLocationCode: airPort,
     destinationLocationCode: 'BKK',
     departureDate: '2021-02-01',
     adults: '1',
   }
   let url = `https://test.api.amadeus.com/v2/shopping/flight-offers`;
 
-  superagent.get(encodeURI(url))
+  return superagent.get(encodeURI(url))
     .query(qs)
-    .set('AUTHORIZATION', `Bearer 8dYSGMyBqvu9DpkH4ycBbxRqRRf6`)
+    .set('AUTHORIZATION', `Bearer 9Vutg0l1mLIPEpCDEQGjaYfaDdH4`)
     .then(locationReesult => {
-      res.send(locationReesult.body.data[0].price.total);
+      return locationReesult.body.data[0].price.total;
+    }).catch((err) => {
+      console.log(err.message);
     });
-
 }
 
 function handleError(err, res) {
