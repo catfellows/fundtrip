@@ -27,7 +27,7 @@ app.use(express.urlencoded({
 app.get('/', handleHome);
 app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
-app.post('/result',handelLocationresults);
+app.post('/result',getResults);
 
 
 app.get('/*', handleError);
@@ -94,9 +94,10 @@ function getResults(req, res) {
 
   (async () => {
     try {
-        let result = await getRestaurant(location_id, '10951');
+        let location = await handelLocation(location_id);
+        let retuarant = await getRestaurant(location.location_id, '10951');
         let flight = await getFlightPrice('AMM');
-        res.send({result, flight});
+        res.send({location, retuarant, flight});
     } catch (error) {
         console.error(error);
     }
@@ -116,7 +117,7 @@ function getFlightPrice(airPort) {
     originLocationCode: airPort,
     destinationLocationCode: 'BKK',
     departureDate: '2021-02-01',
-    adults: '1',
+    adults: 1,
   }
   let url = `https://test.api.amadeus.com/v2/shopping/flight-offers`;
 
