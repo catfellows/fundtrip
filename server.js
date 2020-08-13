@@ -7,18 +7,14 @@ const app = express();
 const cors=require('cors');
 const superagent = require('superagent');
 const PORT = process.env.PORT || 3000;
+
+const pg = require('pg');
+app.use(cors());
+//const client = new pg.Client(process.env.DATABASE_URL);
 // const pg = require('pg');
 
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
-app.use(cors());
-
-app.use(express.urlencoded({
-  extended: true
-}));
-
-
-
 
 app.use(express.urlencoded({
   extended: true
@@ -96,7 +92,8 @@ function getResults(req, res) {
     try {
         let location = await handelLocation(location_id);
         let retuarant = await getRestaurant(location.location_id, '10951');
-        let flight = await getFlightPrice('AMM');
+        let code = await getcode(req.body.place_name);
+        let flight = await getFlightPrice(code);
         res.send({location, retuarant, flight});
     } catch (error) {
         console.error(error);
@@ -112,25 +109,47 @@ function getResults(req, res) {
 //   res.send(result);
 }
 
-function getFlightPrice(airPort) {
-  let qs = {
-    originLocationCode: airPort,
-    destinationLocationCode: 'BKK',
-    departureDate: '2021-02-01',
-    adults: 1,
+function getcode(req){ 
+  let qs={
+    query:req,
   }
-  let url = `https://test.api.amadeus.com/v2/shopping/flight-offers`;
+  let url = "https://tripadvisor1.p.rapidapi.com/airports/search"
+  return superagent.get(url).query(qs)
+  .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
+  .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
+  .set('useQueryString', true)
+  .then(result=>{
+    return result.body[0].code;
+  }).catch((err) => {
+    //console.log(err.message);
+  });
+}
 
-  return superagent.get(encodeURI(url))
-    .query(qs)
-    .set('AUTHORIZATION', `Bearer ${process.env.FLIGHT_API_KEY}`)
-    .then(locationReesult => {
-      
-      return locationReesult.body.data[0].price.total;
-    }).catch((err) => {
-      
-      console.log(err.message);
-    });
+function getFlightPrice(req) {
+  try{
+ let qs = {
+   originLocationCode: 'BKK',
+   destinationLocationCode: req,
+   departureDate: '2021-02-01',
+   adults: 1,
+ }
+
+ console.log('getFlightPrice ', req);
+ let url = `https://test.api.amadeus.com/v2/shopping/flight-offers`;
+
+ return superagent.get(encodeURI(url))
+   .query(qs)
+   .set('AUTHORIZATION', `Bearer ${process.env.FLIGHT_API_KEY}`)
+   .then(locationReesult => {
+     return locationReesult.body.data.map(element=> {
+         return new Flight(element)
+     });
+   }).catch((err) => {
+     console.log(err.message);
+   });
+ } catch(err) {
+   //console.log(err)
+ }
 }
 
 
@@ -199,7 +218,12 @@ function Restaurant(data) {
 // Hotels
 
 // Flight
-
+function Flight(data){
+  this.base=data.price.base || '';
+  this.total=data.price.total || '';
+  this.currency=data.price.currency || '';
+  this.grandTotal=data.price.grandTotal || '';
+}
 
 app.listen(PORT, () => {
   console.log(`listening to port : ${PORT}`);
