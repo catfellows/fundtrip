@@ -6,13 +6,18 @@ const express = require('express');
 const app = express();
 const superagent = require('superagent')
 const PORT = process.env.PORT || 3000;
-const pg = require('pg');
+// const pg = require('pg');
 
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 
+app.use(express.urlencoded({
+  extended: true
+}));
+
 app.get('/', handleHome);
 app.get('/flight', getFlightPrice);
+app.post('/result', getResults);
 
 app.get('/*', handleError);
 
@@ -41,7 +46,7 @@ function handelHome(req, res) {
 }
 
 function handleHome(req, res) {
-    res.render('./index.ejs');
+  res.render('./index.ejs');
 //   getFlightPrice('AMM').then( returnedData => {
 //     res.send(returnedData);
 //   }).catch((err) => {
@@ -49,6 +54,14 @@ function handleHome(req, res) {
 //   });
 }
 
+function getResults(req, res) {
+  let location_id = req.body.place_name;
+  getRestaurant(location_id, '10951').then( returnedData => {
+    res.send(returnedData);
+  }).catch((err) => {
+    console.log(err.message);
+  });
+}
 
 function getFlightPrice(airPort) {
   let qs = {
@@ -69,6 +82,32 @@ function getFlightPrice(airPort) {
     });
 }
 
+
+function getRestaurant(location_id, prices_restaurants) {
+  let qs = {
+    lunit: 'km',
+    limit: '30',
+    prices_restaurants: prices_restaurants,
+    currency: 'USD',
+    lang: 'en_US',
+    location_id: location_id
+  }
+
+  let url = `https://tripadvisor1.p.rapidapi.com/restaurants/list`;
+
+  return superagent.get(encodeURI(url))
+    .query(qs)
+    .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
+    .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
+    .set('useQueryString', true)
+    .then(restaurantResult => {
+      return restaurantResult.body.data.map((e) => {
+        return new Restaurant(e);
+      });
+    });
+}
+
+
 function handleError(err, res) {
   console.error(err);
 //   res.render('pages/error', err);
@@ -88,6 +127,18 @@ function Location(data) {
 }
 
 // Restarant
+function Restaurant(data) {
+  this.name = data.name;
+  this.latitude = data.latitude || '';
+  this.longitude = data.longitude || '';
+  this.num_reviews = data.num_reviews || '';
+  this.rating = data.rating || '0.0';
+  this.price_level = data.price_level || 'No level';
+  this.price = data.price || '';
+  this.description = data.description || '';
+  this.phone = data.phone || '';
+  this.address = data.address || '';
+}
 
 // Reviews
 
