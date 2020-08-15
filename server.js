@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 const pg = require('pg');
 app.use(cors());
-//const client = new pg.Client(process.env.DATABASE_URL);
+const client = new pg.Client(process.env.DATABASE_URL);
 // const pg = require('pg');
 
 app.use(express.static('./public'));
@@ -20,12 +20,14 @@ app.use(express.urlencoded({
   extended: true
 }));
 
+
 app.get('/', handleHome);
-app.get('/flight', getFlightPrice);
+ app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result',getResults);
 app.get('/single',singleRestaurant);
 app.get('/collection',collection);
+app.post('/testimonial', addReview)
 
 
 app.get('/*', handleError);
@@ -185,6 +187,29 @@ function handleError(err, res) {
 
 
 
+function addReview(req, res){
+
+  let  SQL ='INSERT INTO review (name ,review) VALUES ($1,$2);'
+  let $1=req.body.fullname;
+  let $2=req.body.reviewe;
+  let values=[$1,$2];
+  
+console.log(req.body)
+
+  return client.query(SQL, values)
+  .then(() => {
+
+    res.redirect(`/`)
+  })
+  .catch(error => {
+    close.log(error);
+    res.render('pages/error');
+  })
+
+
+}
+
+
 
 // Constructors
 
@@ -226,6 +251,10 @@ function Flight(data){
   this.grandTotal=data.price.grandTotal || '';
 }
 
-app.listen(PORT, () => {
-  console.log(`listening to port : ${PORT}`);
-});
+client.connect().then(){
+  app.listen(PORT, () => {
+    console.log(`listening to port : ${PORT}`);
+  });
+  
+}
+
