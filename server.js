@@ -24,6 +24,8 @@ app.get('/', handleHome);
 app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result',getResults);
+app.get('/single',singleRestaurant);
+app.get('/collection',collection);
 
 
 app.get('/*', handleError);
@@ -55,8 +57,8 @@ function handelLocation(locationName) {
 
  return superagent.get(encodeURI(url))
     .query(qs)
-    .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
-    .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
+    .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
+    .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
     .set('useQueryString', true)
     .then(locationReesult => {
 
@@ -65,11 +67,8 @@ function handelLocation(locationName) {
     });
 }
 
-
-
-
 function handleHome(req, res) {
-  res.render('./index.ejs');
+  res.render('./index');
 //   getFlightPrice('AMM').then( returnedData => {
 //     res.send(returnedData);
 //   }).catch((err) => {
@@ -79,14 +78,15 @@ function handleHome(req, res) {
 
 function getResults(req, res) {
   let location_id = req.body.place_name;
-
+  let budget = req.body.budget;
   (async () => {
     try {
         let location = await handelLocation(location_id);
-        let retuarant = await getRestaurant(location.location_id, '10951');
         let code = await getcode(req.body.place_name);
         let flight = await getFlightPrice(code);
-        res.send({location, retuarant, flight});
+        let dailyBudget = (budget - flight) / 10;
+        let retuarant = await getRestaurant(location.location_id, '10951');
+        res.render('./pages/search_result', {data: {location, retuarant, flight}});
     } catch (error) {
         console.error(error);
     }
@@ -109,8 +109,8 @@ function getcode(req){
   }
   let url = "https://tripadvisor1.p.rapidapi.com/airports/search"
   return superagent.get(url).query(qs)
-  .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
-  .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
+  .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
+  .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
   .set('useQueryString', true)
   .then(result=>{
     return result.body[0].code;
@@ -150,7 +150,7 @@ function getFlightPrice(req) {
 function getRestaurant(location_id, prices_restaurants) {
   let qs = {
     lunit: 'km',
-    limit: '30',
+    limit: '10',
     prices_restaurants: prices_restaurants,
     currency: 'USD',
     lang: 'en_US',
@@ -161,16 +161,24 @@ function getRestaurant(location_id, prices_restaurants) {
 
   return superagent.get(encodeURI(url))
     .query(qs)
-    .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
-    .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
+    .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
+    .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
     .set('useQueryString', true)
     .then(restaurantResult => {
       return restaurantResult.body.data.map((e) => {
         return new Restaurant(e);
+        // console.log(e.photo.images.original.url);
       });
     });
 }
 
+function singleRestaurant(req, res) {
+  res.render('./pages/single_restaurant');
+}
+
+function collection(req, res) {
+  res.render('./pages/collection');
+}
 
 function handleError(err, res) {
   console.error(err);
@@ -195,16 +203,17 @@ function Location(data) {
 
 // Restarant
 function Restaurant(data) {
-  this.name = data.name;
-  this.latitude = data.latitude || '';
-  this.longitude = data.longitude || '';
-  this.num_reviews = data.num_reviews || '';
+  this.name = data.name || 'No name';
+  this.latitude = data.latitude || '11';
+  this.longitude = data.longitude || '11';
+  this.num_reviews = data.num_reviews || '0';
   this.rating = data.rating || '0.0';
   this.price_level = data.price_level || 'No level';
-  this.price = data.price || '';
-  this.description = data.description || '';
-  this.phone = data.phone || '';
-  this.address = data.address || '';
+  this.price = data.price || '-';
+  this.description = data.description || 'No description available';
+  this.phone = data.phone || 'No phone';
+  this.address = data.address || 'No address';
+  this.image = data && data.photo && data.photo.images && data.photo.images.original.url || 'https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png';
 }
 
 // Reviews
