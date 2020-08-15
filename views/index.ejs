@@ -1,17 +1,159 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="/result" method="POST">
-        <input type="text" name="place_name">
-        <input type="text" name="travel_date">
-        <input type="text" name="adults">
-        <input type="text" name="budget">
-        <input type="submit" name="" id="" value="search">
-    </form>
-</body>
-</html>
+<%- include('./layout/header') %>
+<div id="wrapper">
+    <div class="content">
+        <section class="hero-section" data-scrollax-parent="true" id="sec1">
+            <div class="hero-parallax">
+                <div class="bg" data-bg="images/bg/22.jpg" data-scrollax="properties: { translateY: '200px' }">
+                </div>
+                <div class="overlay op7"></div>
+            </div>
+            <div class="hero-section-wrap fl-wrap">
+                <div class="container">
+                    <div class="home-intro">
+                        <div class="section-title-separator"><span></span></div>
+                        <h2>Fundtrip travel planning</h2>
+                        <span class="section-separator"></span>
+                        <h3>Let's start exploring the world together with Fundtrip</h3>
+                    </div>
+                    <div class="main-search-input-wrap">
+                        <form action="/result" method="POST">
+                            <div class="main-search-input fl-wrap">
+                                <div class="main-search-input-item location" id="autocomplete-container">
+                                    <span class="inpt_dec"><i class="fal fa-map-marker"></i></span>
+                                    <input type="text" placeholder="Hotel , City..." name="place_name" class="" id=""
+                                        value="">
+                                    <a href="#"><i class="fal fa-dot-circle"></i></a>
+                                </div>
+                                <div class="main-search-input-item main-date-parent main-search-input-item_small">
+                                    <span class="inpt_dec"><i class="fal fa-calendar-check"></i></span> <input
+                                        type="text" name="travel_date" placeholder="When" value="">
+                                </div>
+                                <div class="main-search-input-item">
+                                    <div class="qty-dropdown fl-wrap">
+                                        <div class="qty-dropdown-header fl-wrap"><i class="fal fa-users"></i>
+                                            Persons</div>
+                                        <div class="qty-dropdown-content fl-wrap">
+                                            <div class="quantity-item">
+                                                <label><i class="fas fa-male"></i> Adults</label>
+                                                <div class="quantity">
+                                                    <input type="number" min="1" max="3" step="1" value="1"
+                                                        name="adults">
+                                                </div>
+                                            </div>
+                                            <div class="quantity-item">
+                                                <label><i class="fas fa-male"></i> Budget</label>
+                                                <div class="quantity">
+                                                    <input type="number" min="1" step="1" value="1" name="budjet">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="main-search-button color2-bg">Search <i
+                                        class="fal fa-search"></i></button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--section -->
+        <section>
+            <div class="container">
+                <div class="section-title">
+                    <div class="section-title-separator"><span></span></div>
+                    <h2>Testimonials</h2>
+                    <span class="section-separator"></span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque.
+                        Nulla finibus lobortis pulvinar.</p>
+                        <div class="modal-open color2-bg add-review lisd-link"><i class="fa fa-user"></i>Add you review</div>
+
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="slider-carousel-wrap text-carousel-wrap fl-wrap">
+                <div class="swiper-button-prev sw-btn"><i class="fa fa-long-arrow-left"></i></div>
+                <div class="swiper-button-next sw-btn"><i class="fa fa-long-arrow-right"></i></div>
+                <div class="text-carousel single-carousel fl-wrap">
+                    <div class="slick-item">
+                        <div class="text-carousel-item">
+                            <div class="popup-avatar"><img src="images\avatar\1.jpg" alt=""></div>
+                            <div class="listing-rating card-popup-rainingvis" data-starrating2="2"> </div>
+                            <div class="review-owner fl-wrap">Milka Antony - <span>Happy Client</span></div>
+                            <p> "In ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis
+                                cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Lorem ipsum dolor sit
+                                amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut
+                                laoreet dolore magna aliquam erat."</p>
+                            <a href="#" class="testim-link">Via Facebook</a>
+                        </div>
+                    </div>
+                    <!--slick-item -->
+                    <div class="slick-item">
+                        <div class="text-carousel-item">
+                            <div class="popup-avatar"><img src="images\avatar\2.jpg" alt=""></div>
+                            <div class="listing-rating card-popup-rainingvis" data-starrating2="4"> </div>
+                            <div class="review-owner fl-wrap">Milka Antony - <span>Happy Client</span></div>
+                            <p> "In ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis
+                                cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Lorem ipsum dolor sit
+                                amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut
+                                laoreet dolore magna aliquam erat."</p>
+                            <a href="#" class="testim-link">Via Facebook</a>
+                        </div>
+                    </div>
+                    <!--slick-item -->
+                    <div class="slick-item">
+                        <div class="text-carousel-item">
+                            <div class="popup-avatar"><img src="images\avatar\3.jpg" alt=""></div>
+                            <div class="listing-rating card-popup-rainingvis" data-starrating2="5"> </div>
+                            <div class="review-owner fl-wrap">Milka Antony - <span>Happy Client</span></div>
+                            <p> "In ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis
+                                cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Lorem ipsum dolor sit
+                                amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut
+                                laoreet dolore magna aliquam erat."</p>
+                            <a href="#" class="testim-link">Via Facebook</a>
+                        </div>
+                    </div>
+                    <!--slick-item -->
+                    <div class="slick-item">
+                        <div class="text-carousel-item">
+                            <div class="popup-avatar"><img src="images\avatar\4.jpg" alt=""></div>
+                            <div class="listing-rating card-popup-rainingvis" data-starrating2="5"> </div>
+                            <div class="review-owner fl-wrap">Milka Antony - <span>Happy Client</span></div>
+                            <p> "In ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis
+                                cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Lorem ipsum dolor sit
+                                amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut
+                                laoreet dolore magna aliquam erat."</p>
+                            <a href="#" class="testim-link">Via Facebook</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="main-register-wrap modal">
+    <div class="reg-overlay"></div>
+    <div class="main-register-holder">
+        <div class="main-register fl-wrap">
+            <div class="close-reg color-bg"><i class="fal fa-times"></i></div>
+            <div id="tabs-container">
+                <div class="tab">
+                    <div id="tab-1" class="tab-content">
+                        <h3><span>Fund<strong>trip</strong></span></h3>
+                        <div class="custom-form">
+                            <form method="post" name="testimonial" action="/testimonial">
+                                <input type="text" name="fullname" placeholder="Your Name *" value="">
+                                <textarea cols="40" name="reviewe" rows="3" placeholder="Your Review:"></textarea>
+                                <button type="submit" class="log-submit-btn color-bg"><span>Submit</span></button>
+                                <div class="clearfix"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./layout/footer') %>
