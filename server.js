@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 3000;
 
 const pg = require('pg');
 app.use(cors());
-//const client = new pg.Client(process.env.DATABASE_URL);
-// const pg = require('pg');
+const client = new pg.Client(process.env.DATABASE_URL);
+const pg = require('pg');
 
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
@@ -68,14 +68,6 @@ function handelLocation(locationName) {
 
 
 
-
-
-
-
-
-
-
-
 function handleHome(req, res) {
   res.render('./index.ejs');
 //   getFlightPrice('AMM').then( returnedData => {
@@ -108,6 +100,8 @@ function getResults(req, res) {
 
 //   res.send(result);
 }
+
+
 
 function getcode(req){ 
   let qs={
