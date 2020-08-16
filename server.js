@@ -180,7 +180,7 @@ function collection(req, res) {
 
 function handleError(err, res) {
   console.error(err);
-//   res.render('pages/error', err);
+  res.render('error');
 }
 
 
