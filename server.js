@@ -28,7 +28,7 @@ app.post('/result',getResults);
 app.get('/single',singleRestaurant);
 app.get('/collection',collection);
 app.post('/testimonial', addReview)
-
+// app.get('/',selectReview)
 
 app.get('/*', handleError);
 
@@ -70,7 +70,16 @@ function handelLocation(locationName) {
 }
 
 function handleHome(req, res) {
-  res.render('./index');
+ 
+ (async () => {
+  try {  
+    let review= await selectReview()
+  res.render('./index',{list:review});
+  // res.send(review)
+} catch (error) {
+  console.error(error);
+}
+})();
 //   getFlightPrice('AMM').then( returnedData => {
 //     res.send(returnedData);
 //   }).catch((err) => {
@@ -203,11 +212,24 @@ console.log(req.body)
   })
   .catch(error => {
     close.log(error);
-    res.render('pages/error');
+  
   })
 
 
 }
+
+function selectReview(){
+
+  let SQL='select * from review;'
+
+  return client.query(SQL)
+  .then((result)=>{
+    return (result.rows)
+
+  })
+
+}
+
 
 
 
@@ -251,10 +273,10 @@ function Flight(data){
   this.grandTotal=data.price.grandTotal || '';
 }
 
-client.connect().then(){
+client.connect().then(()=>{
   app.listen(PORT, () => {
     console.log(`listening to port : ${PORT}`);
   });
   
-}
+})
 

@@ -75,57 +75,20 @@
                 <div class="swiper-button-prev sw-btn"><i class="fa fa-long-arrow-left"></i></div>
                 <div class="swiper-button-next sw-btn"><i class="fa fa-long-arrow-right"></i></div>
                 <div class="text-carousel single-carousel fl-wrap">
-                    <div class="slick-item">
-                        <div class="text-carousel-item">
-                            <div class="popup-avatar"><img src="images\avatar\1.jpg" alt=""></div>
-                            <div class="listing-rating card-popup-rainingvis" data-starrating2="2"> </div>
-                            <div class="review-owner fl-wrap">Milka Antony - <span>Happy Client</span></div>
-                            <p> "In ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis
-                                cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Lorem ipsum dolor sit
-                                amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut
-                                laoreet dolore magna aliquam erat."</p>
-                            <a href="#" class="testim-link">Via Facebook</a>
+
+                      <!-- slick-item -->
+                      <% list.forEach(data=>{ %>
+                        <div class="slick-item">
+                            <div class="text-carousel-item">
+                                <div class="popup-avatar"><img src="images\avatar\1.jpg" alt=""></div>
+                                <div class="listing-rating card-popup-rainingvis" data-starrating2="5"> </div>
+                                <div class="review-owner fl-wrap"> <%= data.name %> - <span>Happy Client</span></div>
+                                <p> <%= data.review %>  </p>
+                                <a href="#" class="testim-link">Via Facebook</a>
+                            </div>
                         </div>
-                    </div>
-                    <!--slick-item -->
-                    <div class="slick-item">
-                        <div class="text-carousel-item">
-                            <div class="popup-avatar"><img src="images\avatar\2.jpg" alt=""></div>
-                            <div class="listing-rating card-popup-rainingvis" data-starrating2="4"> </div>
-                            <div class="review-owner fl-wrap">Milka Antony - <span>Happy Client</span></div>
-                            <p> "In ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis
-                                cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Lorem ipsum dolor sit
-                                amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut
-                                laoreet dolore magna aliquam erat."</p>
-                            <a href="#" class="testim-link">Via Facebook</a>
-                        </div>
-                    </div>
-                    <!--slick-item -->
-                    <div class="slick-item">
-                        <div class="text-carousel-item">
-                            <div class="popup-avatar"><img src="images\avatar\3.jpg" alt=""></div>
-                            <div class="listing-rating card-popup-rainingvis" data-starrating2="5"> </div>
-                            <div class="review-owner fl-wrap">Milka Antony - <span>Happy Client</span></div>
-                            <p> "In ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis
-                                cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Lorem ipsum dolor sit
-                                amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut
-                                laoreet dolore magna aliquam erat."</p>
-                            <a href="#" class="testim-link">Via Facebook</a>
-                        </div>
-                    </div>
-                    <!--slick-item -->
-                    <div class="slick-item">
-                        <div class="text-carousel-item">
-                            <div class="popup-avatar"><img src="images\avatar\4.jpg" alt=""></div>
-                            <div class="listing-rating card-popup-rainingvis" data-starrating2="5"> </div>
-                            <div class="review-owner fl-wrap">Milka Antony - <span>Happy Client</span></div>
-                            <p> "In ut odio libero, at vulputate urna. Nulla tristique mi a massa convallis
-                                cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Lorem ipsum dolor sit
-                                amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut
-                                laoreet dolore magna aliquam erat."</p>
-                            <a href="#" class="testim-link">Via Facebook</a>
-                        </div>
-                    </div>
+                     <% }) %>
+
                 </div>
             </div>
         </section>
