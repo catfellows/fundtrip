@@ -26,9 +26,10 @@ app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result', getResults);
 
-app.get('/single', singleRestaurant);
-app.post('/collection', saveToFav);
-app.get('/collection', collection);
+
+app.get('/single',singleRestaurant);
+app.post('/collection',saveToFav);
+app.get('/collection',collection);
 app.post('/testimonial', addReview)
     // app.get('/',selectReview)
 
@@ -228,13 +229,16 @@ function getRestaurant(location_id, prices_restaurants) {
 }
 
 function singleRestaurant(req, res) {
-    let SQL = "SELECT * FROM favorite  WHERE id=$1 ";
-    let value = [req.params.id];
-    client.query(SQL, value).then(data => {
-        // res.send(data)
-        res.render('./pages/single_restaurant');
-    })
 
+
+  let SQL = "SELECT * FROM favorite  WHERE id=$1 ";
+  let value = [req.query.id];
+  client.query(SQL, value).then(data =>{
+    // res.send(data)
+    res.render('./pages/single_restaurant', {result:data.rows[0]});
+
+  })
+ 
 }
 
 function collection(req, res) {
