@@ -1,0 +1,106 @@
+<%- include('../layout/header') %>
+
+<div id="wrapper">
+    <div class="content">
+        <div class="map-container column-map right-pos-map fix-map hid-mob-map">
+            <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                src="https://maps.google.com/maps?q=<%= data.location.latitude%>,<%= data.location.longitude%>&hl=en&z=14&amp;output=embed">
+            </iframe>
+        </div>
+        <!--col-list-wrap -->
+        <div class="col-list-wrap left-list">
+            <div class="mobile-list-controls fl-wrap">
+                <div class="container">
+                    <div class="mlc show-hidden-column-map schm"><i class="fal fa-map-marked-alt"></i> Show Map
+                    </div>
+                    <div class="mlc show-list-wrap-search"><i class="fal fa-filter"></i> Filter</div>
+                </div>
+            </div>
+            <div class="list-main-wrap fl-wrap card-listing">
+                <div class="container">
+                    <div class="list-main-wrap-title fl-wrap">
+                        <h2>Results For : <span><%= data.location.name %></span></h2>
+                    </div>
+                    <!-- list-main-wrap-opt-->
+                    <div class="list-main-wrap-opt fl-wrap">
+                        <div class="price-opt">
+                            <span class="price-opt-title">Sort results by:</span>
+                            <div class="listsearch-input-item">
+                                <select id="filtre" data-placeholder="Popularity"
+                                    class="chosen-select no-search-select">
+                                    <option value="Restaurant">Restaurant</option>
+                                    <option value="Hotels">Hotels</option>
+                                    <option value="Flight tickets">Flight tickets</option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- price-opt-->
+                        <div class="grid-opt">
+                            <ul>
+                                <li><span class="two-col-grid act-grid-opt"><i class="fas fa-th-large"></i></span></li>
+                                <li><span class="one-col-grid"><i class="fas fa-bars"></i></span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- listing-item-container -->
+                    <div class="listing-item-container init-grid-items fl-wrap">
+                        <% data.retuarant.forEach( item => { %>
+                        <div class="listing-item" data-type="Restaurant">
+                            <article class="geodir-category-listing fl-wrap">
+                                <div class="geodir-category-img">
+                                    <a href="listing-single.html"><img src="<%= item.image %>" alt=""></a>
+                                    <div class="geodir-category-opt">
+                                        <div class="listing-rating card-popup-rainingvis"
+                                            data-starrating2="<%= item.rating %>">
+                                        </div>
+                                        <div class="rate-class-name">
+                                            <div class="score"><strong>Very Good</strong><%= item.num_reviews %>
+                                                Reviews </div>
+                                            <span><%= item.rating %></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="geodir-category-content fl-wrap">
+                                    <div class="geodir-category-content-title fl-wrap">
+                                        <div class="geodir-category-content-title-item">
+                                            <h3 class="title-sin_map"><a href="listing-single.html"><%= item.name %></a>
+                                            </h3>
+                                            <div class="geodir-category-location fl-wrap"><a href="#0"
+                                                    class="map-item"><i class="fas fa-map-marker-alt"></i>
+                                                    <%= item.address %></a></div>
+                                        </div>
+                                    </div>
+                                    <p><%= item.description.substring(0, 150) %></p>
+                                    <ul class="facilities-list fl-wrap">
+                                        <li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
+                                        <li><i class="fal fa-parking"></i><span>Parking</span></li>
+                                        <li><i class="fal fa-smoking-ban"></i><span>Non-smoking Rooms</span>
+                                        </li>
+                                        <li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
+                                    </ul>
+                                    <div class="geodir-category-footer fl-wrap">
+                                        <div class="geodir-category-price">Awg/Night
+                                            <span><%= item.price %></span></div>
+                                        <div class="geodir-opt-list">
+                                            <a href="#0" class="map-item"><i class="fal fa-map-marker-alt"></i><span
+                                                    class="geodir-opt-tooltip">On the map
+                                                    <strong>1</strong></span></a>
+                                            <a href="#" class="geodir-js-favorite"><i class="fal fa-heart"></i><span
+                                                    class="geodir-opt-tooltip">Save</span></a>
+                                            <a href="#" class="geodir-js-booking"><i class="fal fa-exchange"></i><span
+                                                    class="geodir-opt-tooltip">Find Directions</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <% }); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="limit-box fl-wrap"></div>
+    </div>
+</div>
+
+<%- include('../layout/footer') %>
