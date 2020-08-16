@@ -22,6 +22,10 @@ app.use(express.urlencoded({
 
 
 app.get('/', handleHome);
+// app.get('/', aboutUs)
+// function aboutUs(req,res){
+//     res.render('pages/about-us')
+// }
 app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result', getResults);
@@ -40,7 +44,7 @@ app.get('/*', handleError);
 
 function handelHotels(req, res) {
     let qs = {
-        qs: {
+       
             offset: '0',
             pricesmax: '100',
             currency: 'USD',
@@ -53,16 +57,22 @@ function handelHotels(req, res) {
             checkin: '2020-12-15',
             rooms: '1',
             nights: '10'
-        },
-    }
+        
+    };
     let url = `https://tripadvisor1.p.rapidapi.com/locations/search`;
-    superagent.get(encodeURI(url))
+  return  superagent.get(encodeURI(url))
         .query(qs)
         .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
         .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
         .set('useQueryString', true)
-        .then(locationReesult => {
-            res.send(locationReesult.body.data[0].result_object);
+        .then(hotelResult => {
+       //    return (locationReesult.body.data[0].result_object);
+           
+        //    return hotelResult.body.data.map((e) => {
+        //     return new Hotel(e);})
+
+res.send(hotelResult.body.data)
+
         });
 }
 
@@ -99,6 +109,7 @@ function handelLocation(locationName) {
         .then(locationReesult => {
 
             return new Location(locationReesult.body.data[0].result_object)
+            
 
         });
 }
@@ -109,7 +120,6 @@ function handleHome(req, res) {
         try {
             let review = await selectReview()
             res.render('./index', { list: review });
-            // res.send(review)
         } catch (error) {
             console.error(error);
         }
