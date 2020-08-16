@@ -154,7 +154,7 @@ blockquote p {
 	width: 100%;
 	position: relative;
 	z-index: 5;
-	padding-top: 110px;
+	padding-top: 50px;
 }
 
 #wrapper.home-wrap {
@@ -520,7 +520,7 @@ blockquote p {
 	z-index: 100;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.21);
 	-webkit-transform: translate3d(0, 0, 0);
-	height: 110px;
+	height: 50px;
 	background: #18458B;
 }
 
@@ -529,22 +529,24 @@ blockquote p {
 }
 
 .header-top {
-	height: 60px;
+	height: 50px;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.21);
 	padding: 0 0 6px 0;
 	z-index: 20;
 }
 
 .header-inner {
-	height: 50px;
-	padding: 0 0 6px 0;
+	height: 100%;
+	padding: 0;
 	z-index: 19;
+	width: 14%;
+	float: right;
 }
 
 .logo-holder {
 	float: left;
 	position: relative;
-	top: 12px;
+	top: 8px;
 	height: 35px;
 }
 
@@ -1008,12 +1010,12 @@ blockquote p {
 .home-btn {
 	float: left;
 	width: 50px;
-	height: 50px;
+	height: 100%;
 	margin-right: 15px;
 	line-height: 50px;
 	color: #fff;
 	border-right: 1px solid rgba(0, 0, 0, 0.21);
-	border-left: 1px solid rgba(0, 0, 0, 0.21);
+	/* border-left: 1px solid rgba(0, 0, 0, 0.21); */
 	box-sizing: border-box;
 }
 
@@ -2123,6 +2125,10 @@ section.no-pading {
 	position: relative;
 	max-width: 450px;
 	margin: 0 auto 10px;
+}
+
+.section-title-separator img {
+	width: 100px;
 }
 
 .section-title-separator span {
@@ -9193,12 +9199,12 @@ article.post-article .list-single-main-item {
 	.main-menu {
 		position: absolute;
 		top: 50px;
-		left: -20px;
+		right: -20px;
 		width: 300px;
 		z-index: 50;
 		padding: 15px 10px;
 		background: #fff;
-		border-bottom-right-radius: 6px;
+		border-bottom-left-radius: 6px;
 		border-right: 1px solid #eee;
 		border-bottom: 1px solid #eee;
 		visibility: hidden;
@@ -9209,7 +9215,7 @@ article.post-article .list-single-main-item {
 
 	.vismobmenu {
 		opacity: 1;
-		left: 0;
+		right: 0;
 		visibility: visible;
 	}
 
