@@ -3,6 +3,7 @@ DROP TABLE if EXISTS subscribe;
 
 create table favorite (
     id serial PRIMARY KEY,
+    type VARCHAR(20),
     location_id INT,
     name VARCHAR(500),
     description text,
