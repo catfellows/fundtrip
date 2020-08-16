@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 3000;
 
 const pg = require('pg');
 app.use(cors());
-//const client = new pg.Client(process.env.DATABASE_URL);
-// const pg = require('pg');
+const client = new pg.Client(process.env.DATABASE_URL);
+
 
 app.use(express.static('./public'));
 app.set('view engine', 'ejs');
@@ -24,11 +24,14 @@ app.get('/', handleHome);
 app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result',getResults);
-app.get('/single',singleRestaurant);
+
+app.get('/single/:id',singleRestaurant);
+app.post('/collection',saveToFav);
 app.get('/collection',collection);
 
 
 app.get('/hotels', handelHotels);
+
 
 app.get('/*', handleError);
 
@@ -131,6 +134,19 @@ function getResults(req, res) {
 //   res.send(result);
 }
 
+function saveToFav (req,res){
+  let data = req.body;
+  // let id = req.params.id;
+  let SQL = 'INSERT INTO favorite(location_id, name,description,num_reviews,rating,price_level,phone,address,image,latitude,longitude,type) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id'
+  let array = [data.location_id,data.name,data.description,data.num_reviews,data.rating,data.price_level,data.phone,data.address,data.image,data.latitude,data.longitude,data.type];
+  client.query(SQL,array).then(response=>{
+    // res.render(`./pages/single/${response.rows[0].id}`);
+    res.redirect(`/single/${response.rows[0].id}`)
+  })
+}
+
+
+
 function getcode(req){ 
   let qs={
     query:req,
@@ -156,7 +172,7 @@ function getFlightPrice(req) {
    adults: 1,
  }
 
- console.log('getFlightPrice ', req);
+//  console.log('getFlightPrice ', req);
  let url = `https://test.api.amadeus.com/v2/shopping/flight-offers`;
 
  return superagent.get(encodeURI(url))
@@ -201,11 +217,21 @@ function getRestaurant(location_id, prices_restaurants) {
 }
 
 function singleRestaurant(req, res) {
-  res.render('./pages/single_restaurant');
+  let SQL = "SELECT * FROM favorite  WHERE id=$1 ";
+  let value = [req.params.id];
+  client.query(SQL, value).then(data =>{
+    // res.send(data)
+    res.render('./pages/single_restaurant');
+  })
+ 
 }
 
 function collection(req, res) {
-  res.render('./pages/collection');
+  let SQL = 'select * from favorite;';
+  client.query(SQL).then(results =>{
+  res.render('./pages/collection',{restuarant:results.rows});
+
+  })
 }
 
 function handleError(err, res) {
@@ -231,6 +257,7 @@ function Location(data) {
 
 // Restarant
 function Restaurant(data) {
+  this.type = 'restaurant';
   this.name = data.name || 'No name';
   this.latitude = data.latitude || '11';
   this.longitude = data.longitude || '11';
@@ -262,12 +289,18 @@ function Hotel(data) {
 }
 // Flight
 function Flight(data){
+  this.type = 'flight'
+  this.departure='AMM',
+  this.arrival=data.itineraries.segments.arrival.iataCode||'',
+  this.date=data.itineraries.segments.departure.at.subString(0,11)||'',
   this.base=data.price.base || '';
   this.total=data.price.total || '';
   this.currency=data.price.currency || '';
   this.grandTotal=data.price.grandTotal || '';
 }
-
-app.listen(PORT, () => {
+client.connect().then(()=>{
+  app.listen(PORT, () => {
     console.log(`listening to port : ${PORT}`);
-});
+  });
+})
+
