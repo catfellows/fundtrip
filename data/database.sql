@@ -2,6 +2,7 @@ drop table if EXISTS favorite;
 
 create table favorite (
     id serial PRIMARY KEY,
+    type VARCHAR(20),
     location_id INT,
     name VARCHAR(500),
     description text,
@@ -13,4 +14,4 @@ create table favorite (
     image text,
     latitude DEC,
     longitude DEC
-);
+)
