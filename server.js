@@ -20,15 +20,17 @@ app.use(express.urlencoded({
   extended: true
 }));
 
+
 app.get('/', handleHome);
-app.get('/flight', getFlightPrice);
+ app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result',getResults);
 
 app.get('/single/:id',singleRestaurant);
 app.post('/collection',saveToFav);
 app.get('/collection',collection);
-
+app.post('/testimonial', addReview)
+// app.get('/',selectReview)
 
 app.get('/hotels', handelHotels);
 
@@ -101,7 +103,16 @@ function handelLocation(locationName) {
 }
 
 function handleHome(req, res) {
-  res.render('./index');
+ 
+ (async () => {
+  try {  
+    let review= await selectReview()
+  res.render('./index',{list:review});
+  // res.send(review)
+} catch (error) {
+  console.error(error);
+}
+})();
 //   getFlightPrice('AMM').then( returnedData => {
 //     res.send(returnedData);
 //   }).catch((err) => {
@@ -241,6 +252,42 @@ function handleError(err, res) {
 
 
 
+function addReview(req, res){
+
+  let  SQL ='INSERT INTO review (name ,review) VALUES ($1,$2);'
+  let $1=req.body.fullname;
+  let $2=req.body.reviewe;
+  let values=[$1,$2];
+  
+console.log(req.body)
+
+  return client.query(SQL, values)
+  .then(() => {
+
+    res.redirect(`/`)
+  })
+  .catch(error => {
+    close.log(error);
+  
+  })
+
+
+}
+
+function selectReview(){
+
+  let SQL='select * from review;'
+
+  return client.query(SQL)
+  .then((result)=>{
+    return (result.rows)
+
+  })
+
+}
+
+
+
 
 // Constructors
 
@@ -303,4 +350,6 @@ client.connect().then(()=>{
     console.log(`listening to port : ${PORT}`);
   });
 })
+
+
 
