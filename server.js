@@ -44,12 +44,14 @@ function handelHotels(id) {
     let qs = {
 
         offset: '0',
+
         pricesmax: '1000',
         currency: 'USD',
         limit: '5',
         order: 'asc',
         lang: 'en_US',
         sort: 'price',
+
         location_id: id,
         adults: '1',
         checkin: '2020-12-15',
@@ -59,18 +61,18 @@ function handelHotels(id) {
     };
 
     let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
-    return superagent.get(encodeURI(url))
+
+  return superagent.get(encodeURI(url))
         .query(qs)
         .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
         .set('x-rapidapi-key', `17b4c35337mshcca2a4e363e9166p1b9820jsnfac672d7cc8d`)
         .set('useQueryString', true)
         .then(hotelresults => {
             return hotelresults.body.data.map(e => {
-                return new Hotel(e);
-            })
-            // res.send(hotelresults.body)
-            // res.send(hotel)
-
+                    return new Hotel(e);
+                })
+                // res.send(hotelresults.body)
+                // res.send(hotel)
         });
 }
 
@@ -121,7 +123,9 @@ function handleHome(req, res) {
     (async () => {
         try {
             let review = await selectReview()
-            res.render('./index', { list: review });
+            res.render('./index', {
+                list: review
+            });
         } catch (error) {
             console.error(error);
         }
@@ -142,6 +146,7 @@ function getResults(req, res) {
             let code = await getcode(req.body.place_name);
             let flight = await getFlightPrice(code);
             let dailyBudget = (budget - flight) / 10;
+            res.send(flight);
             let restuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);
             console.log(hotel)
@@ -253,13 +258,14 @@ function singleRestaurant(req, res) {
         res.render('./pages/single_restaurant', { result: data.rows[0] });
 
     })
-
 }
 
 function collection(req, res) {
     let SQL = 'select * from favorite;';
     client.query(SQL).then(results => {
-        res.render('./pages/collection', { restuarant: results.rows });
+        res.render('./pages/collection', {
+            restuarant: results.rows
+        });
 
     })
 }
@@ -293,9 +299,45 @@ function addReview(req, res) {
 
 }
 
+function addRestRev(req, res) {
+    let SQL = 'INSERT INTO reviewRest (score, email, name, review ,idRest) VALUES ($1,$2,$3,$4,$5);'
+    let $1 = req.body.rgcl;
+    let $2 = req.body.email;
+    let $3 = req.body.name;
+    let $4 = req.body.review;
+    let $5 = req.query.id;
+
+    let values = [$1, $2, $3, $4, $5];
+
+    console.log(req.body)
+
+    return client.query(SQL, values)
+        .then(() => {
+
+            res.redirect('back')
+        })
+        .catch(error => {
+            close.log(error);
+
+        })
+}
+
+
 function selectReview() {
 
     let SQL = 'select * from review;'
+
+    return client.query(SQL)
+        .then((result) => {
+            return (result.rows)
+
+        })
+
+}
+
+function selectRestReview() {
+
+    let SQL = 'select * from reviewRest;'
 
     return client.query(SQL)
         .then((result) => {
@@ -356,15 +398,17 @@ function Hotel(data) {
 }
 // Flight
 function Flight(data) {
-    this.type = 'flight'
-    this.departure = 'AMM',
-    this.arrival = data.itineraries.segments.arrival.iataCode || '',
-    this.date = data.itineraries.segments.departure.at.subString(0, 11) || '',
+    this.type = 'flight';
+    this.departure = 'AMM';
+    this.arrival = data.itineraries[0].segments[0].arrival.iataCode || '';
+    this.numberOfBookableSeats = data.numberOfBookableSeats || 0;
+    this.date = data.itineraries[0].segments[0].departure.at.subString(0, 11) || '';
     this.base = data.price.base || '';
     this.total = data.price.total || '';
     this.currency = data.price.currency || '';
     this.grandTotal = data.price.grandTotal || '';
 }
+
 client.connect().then(() => {
     app.listen(PORT, () => {
         console.log(`listening to port : ${PORT}`);

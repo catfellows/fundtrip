@@ -1,323 +1,176 @@
-<!DOCTYPE html>
-<html lang="en">
+<%- include('../layout/header') %>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <style>
-    .aboutFirst {
-
-      display: grid;
-      grid-template-columns: 50% 50%;
-      grid-template-rows: 500px;
-      column-gap: 50px;
-      row-gap: 60px;
-      text-align: center;
-      margin: 0 auto;
-      width: 80%;
-      margin-top: 50px;
-      margin-bottom: 100px;
-
-    }
-
-    .aboutFirst p {
-      font-size: 150%;
-    }
-
-    #imgabout {
-      height: 100%;
-      width: 100%;
-
-    }
-
-    .mySlides {
-      display: none;
-      margin-bottom: 80px;
-    }
-
-    #team {
-      text-align: center;
-      font-size: 200%;
-    }
-
-    .ourTeam {
-      width: 90%;
-      text-align: center;
-      padding: 5px;
-      display: flex;
-      justify-content: space-around;
-      margin: 0px auto;
-    }
-
-
-    .card {
-      margin: 20px;
-      width: 25%;
-      padding: 0 0px;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-      max-width: 300px;
-      text-align: center;
-      font-family: arial;
-      margin-bottom: 100px;
-   
-
-    }
-
-    .card img {
-      width: 40px;
-      height: 150px;
-      animation: 3s infinite alternate floating;
-
-    }
-
-    .title {
-      color: grey;
-      font-size: 18px;
-    }
-
-    button {
-      border: none;
-      outline: 0;
-      display: inline-block;
-      padding: 8px;
-      color: white;
-      background-color: #000;
-      text-align: center;
-      cursor: pointer;
-      width: 100%;
-      font-size: 18px;
-    }
-
-    a {
-      text-decoration: none;
-      font-size: 22px;
-      color: black;
-    }
-
-    button:hover,
-    a:hover {
-      opacity: 0.7;
-    }
-
-
-    .shadow{
-  height:2px;
-  display:block;
-  animation: 3s infinite alternate shadow;
-}
-
-@keyframes floating {
-	0% {
-		transform: translatey(0px);
-	}
-	50% {
-		transform: translatey(-20px);
-	}
-	100% {
-		transform: translatey(0px);
-	}
-}
-@keyframes shadow {
-	0% {
-    width:220;
-		box-shadow:0px 10px px rgba(0,0,0,.8);
-	}
-	50% {
-    widows: 220px;
-		box-shadow:0px 10px 8px rgba(0,0,0,.5);
-	}
-	100% {
-    width:220px;
-		box-shadow:0px 10px 8px rgba(0,0,0,.8);
-	}
-}
-  </style>
-</head>
-
-<body>
-
-  <div class='aboutFirst'>
-    <img id='imgabout' src="https://www.careeraddict.com/uploads/article/55589/group-young-people-office-meeting.jpg"
-      alt="team-meeting">
-    <p>
-      <b> Fundtrip</b> <br> seamlessly connects millions of travelers to memorable experiences, a variety of
-      transportation options, and incredible places to stay – from homes to hotels, and much more. As one of the
-      world’s largest travel marketplaces for both established brands and entrepreneurs of all sizes, Fundtrip
-      enables properties around the world to reach a global audience and grow their businesses. </p>
-  </div>
-
-
-
-  <div class="w3-content w3-section">
-
-    <div class="mySlides w3-animate-top" style="width:100%">
-      <p>
-        Travelers🚀 welcome to my site. You’ve just stumbled across the best place on the internet to find
-        information on travel-related websites and resources. Although the concept is pretty self-explanatory, I
-        thought I would offer a little introduction page to let you know precisely what it is you will be looking
-        at.
-        Although you think you might have come across something similar in the past, I can guarantee that this site
-        is different. Here’s why:
-      </p>
-    </div>
-
-    <div class="mySlides w3-animate-bottom" style="width:100%">
-      <p>
-        Built For You💝
-
-        Forget corporate-sponsored websites that are just after your money; this website has been sourced and put
-        together by travelers for travelers. Every list was compiled with your best interests at heart, bringing you
-        quality as well as value.
-      </p>
-    </div>
-
-    <div class="mySlides w3-animate-top" style="width:100%">
-      <p>
-        Travelers🚀 welcome to my site. You’ve just stumbled across the best place on the internet to find
-        information on travel-related websites and resources. Although the concept is pretty self-explanatory, I
-        thought I would offer a little introduction page to let you know precisely what it is you will be looking
-        at.
-        Although you think you might have come across something similar in the past, I can guarantee that this site
-        is different. Here’s why:
-      </p>
-    </div>
-
-    <div class="mySlides w3-animate-bottom" style="width:100%">
-      <p>
-        Daily Updates🆕🔔
-
-        We all know that as companies get bigger, they can start to care less about their quality of service and
-        more about their profits. For that reason, I regularly reassess the websites featured on the lists to keep
-        them up to date so that you will see only the ones offering the best content. If what was once a great
-        travel resource has now been bought out by a more significant corporation that only has its interests at
-        heart, I’ll be on it making amendments at the shortest possible notice.
-      </p>
-    </div>
-
-    <div class="mySlides w3-animate-top" style="width:100%">
-      <p>
-        No Adverts...Ever🚫
-
-        I don’t advertise on this site, nor do I charge a fee to access the content. Traveling is expensive enough
-        without the extras, so expect it to remain 100% ad and fee-free for as long as you’re using it.
-
-      </p>
-    </div>
-
-    <div class="mySlides w3-animate-bottom" style="width:100%">
-      <p>
-        Site Reviews🧠
-
-        As well as being ranked in a list, each item has also been reviewed. We are highlighting the unique
-        features, comparison to similar websites, and a list of the pros and cons at the end. To access the written
-        content, click on the little magnifying glass next to the item.
-      </p>
-    </div>
-
-    <div class="mySlides w3-animate-top" style="width:100%">
-      <p>
-        Your Feedback Welcomed🔝😍
-
-        If you have a problem with the way, the sites are ranked or think that something should be changed or added,
-        then don’t hesitate to get into contact with me. While I strive for quality on the site, not everyone will
-        be 100% satisfied, and I want to know!
-
-      </p>
-    </div>
-
-  </div>
-
-  <div id='team'>
-    <p>our team </p>
-  </div>
-
-  <div class="ourTeam">
-
-    <div class="card shadow">
-      <img src="https://i.pinimg.com/originals/a6/35/97/a635970f604cb141c132f1b3184bce24.png" alt="John"
-        style="width:100%">
-      <h1>Waleed Afifi</h1>
-      <p class="title">CEO & Founder</p>
-      <p>Harvard University</p>
-      <div style="margin: 24px 0;">
-        <a href="#"><i class="fa fa-dribbble"></i></a>
-        <a href="#"><i class="fa fa-twitter"></i></a>
-        <a href="#"><i class="fa fa-linkedin"></i></a>
-        <a href="#"><i class="fa fa-facebook"></i></a>
-      </div>
-      <p><button>Contact</button></p>
-
-    </div>
-
-  <div class="card shadow">
-    <img src="https://i1.sndcdn.com/artworks-000285582179-99vxpi-t500x500.jpg" alt="John" style="width:100%">
-    <h1>Sondos</h1>
-    <p class="title">CEO & Founder</p>
-    <p>Harvard University</p>
-    <div style="margin: 24px 0;">
-      <a href="#"><i class="fa fa-dribbble"></i></a>
-      <a href="#"><i class="fa fa-twitter"></i></a>
-      <a href="#"><i class="fa fa-linkedin"></i></a>
-      <a href="#"><i class="fa fa-facebook"></i></a>
-    </div>
-    <p><button>Contact</button></p>
-  </div>
-
-
-  <div class="card shadow">
-    <img src="https://i1.sndcdn.com/artworks-000285582179-99vxpi-t500x500.jpg" alt="John" style="width:100%">
-    <h1>Rania</h1>
-    <p class="title">CEO & Founder</p>
-    <p>Harvard University</p>
-    <div style="margin: 24px 0;">
-      <a href="#"><i class="fa fa-dribbble"></i></a>
-      <a href="#"><i class="fa fa-twitter"></i></a>
-      <a href="#"><i class="fa fa-linkedin"></i></a>
-      <a href="#"><i class="fa fa-facebook"></i></a>
-    </div>
-    <p><button>Contact</button></p>
-  </div>
-
-  <div class="card shadow">
-    <img src="https://i.pinimg.com/originals/a6/35/97/a635970f604cb141c132f1b3184bce24.png" alt="John"
-      style="width:100%">
-    <h1>Hisham</h1>
-    <p class="title">CEO & Founder</p>
-    <p>Harvard University</p>
-    <div style="margin: 24px 0;">
-      <a href="#"><i class="fa fa-dribbble"></i></a>
-      <a href="#"><i class="fa fa-twitter"></i></a>
-      <a href="#"><i class="fa fa-linkedin"></i></a>
-      <a href="#"><i class="fa fa-facebook"></i></a>
-    </div>
-    <p><button>Contact</button></p>
-  </div>
-
-
-  </div>
-
-
-</body>
-
-<script>
-  var myIndex = 0;
-  carousel();
-
-  function carousel() {
-    var i;
-    var x = document.getElementsByClassName("mySlides");
-    for (i = 0; i < x.length; i++) {
-      x[i].style.display = "none";
-    }
-    myIndex++;
-    if (myIndex > x.length) { myIndex = 1 }
-    x[myIndex - 1].style.display = "block";
-    setTimeout(carousel, 2500);
-  }
-</script>
-
-</html>
+            <!--  wrapper  -->
+            <div id="wrapper">
+              <!-- content-->
+              <div class="content">
+                  <section id="sec1" class="middle-padding">
+                      <div class="container">
+                          <!--about-wrap --> 
+                          <div class="about-wrap">
+                              <div class="row">
+                                  <div class="col-md-6">
+                                      <div class="video-box fl-wrap">
+                                          <img src="images\all\9.jpg" class="respimg" alt="">
+                                      </div>
+                                  </div>
+                                  <div class="col-md-6">
+                                      <div class="list-single-main-item-title fl-wrap">
+                                          <h3>Fundtrip <span></span></h3>
+                                      </div>
+                                      <p>seamlessly connects millions of travelers to memorable experiences, a variety of
+                                        transportation options, and incredible places to stay – from homes to hotels, and much more. As one of the
+                                        world’s largest travel marketplaces for both established brands and entrepreneurs of all sizes, Fundtrip
+                                        enables properties around the world to reach a global audience and grow their businesses.
+                                      </p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </section>
+                  <!-- section end -->
+                  <!--section -->
+                  <section class="color-bg hidden-section">
+                      <div class="wave-bg wave-bg2"></div>
+                      <div class="container">
+                          <div class="section-title">
+                              <h2>Why Choose Us</h2>
+                              <span class="section-separator"></span>
+                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in pulvinar neque. Nulla finibus lobortis pulvinar.</p>
+                          </div>
+                          <!-- -->
+                          <div class="row">
+                              <div class="col-md-4">
+                                  <!-- process-item-->
+                                  <div class="process-item big-pad-pr-item">
+                                      <span class="process-count"> </span>
+                                      <div class="time-line-icon"><i class="fal fa-headset"></i></div>
+                                      <h4><a href="#"> Daily Updates</a></h4>
+                                      <p>We all know that as companies get bigger, they can start to care less about their quality of service and
+                                        more about their profits.</p>
+                                  </div>
+                                  <!-- process-item end -->
+                              </div>
+                              <div class="col-md-4">
+                                  <!-- process-item-->
+                                  <div class="process-item big-pad-pr-item">
+                                      <span class="process-count"> </span>
+                                      <div class="time-line-icon"><i class="fal fa-cogs"></i></div>
+                                      <h4> <a href="#">No Adverts...Ever</a></h4>
+                                      <p>Fundtrip don’t advertise on this site, nor do we charge a fee to access the content. Traveling is expensive enough
+                                        without the extras.</p>
+                                  </div>
+                                  <!-- process-item end -->                                
+                              </div>
+                              <div class="col-md-4">
+                                  <!-- process-item-->
+                                  <div class="process-item big-pad-pr-item nodecpre">
+                                      <span class="process-count"> </span>
+                                      <div class="time-line-icon"><i class="fab fa-android"></i></div>
+                                      <h4><a href="#"> Built For You</a></h4>
+                                      <p>Forget corporate-sponsored websites that are just after your money; this website has been sourced and put
+                                        together by travelers for travelers.</p>
+                                  </div>
+                                  <!-- process-item end -->                                
+                              </div>
+                          </div>
+                          <!--process-wrap   end-->
+                      </div>
+                  </section>
+                  <!-- section end -->
+                  <!--section -->
+                  <section id="sec2 row">
+                      <div class="container">
+                          <div class="section-title">
+                              <h2>Our Team</h2>
+                              <span class="section-separator"></span>
+                          </div>
+                          <div class="team-holder section-team fl-wrap">
+                              <!-- team-item -->
+                              <div class="team-box col-md-3">
+                                  <div class="team-photo">
+                                      <img src="https://ca.slack-edge.com/TNGRRLUMA-U012Q5MDF4L-dccfd6bec4d1-512" alt="" class="respimg">
+                                  </div>
+                                  <div class="team-info">
+                                      <div class="team-dec"><i class="fal fa-chart-line"></i></div>
+                                      <h3><a href="#">Waleed A. Afifi</a></h3>
+                                      <h4>Fullstack developer</h4>
+                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+                                      <div class="team-social">
+                                          <ul>
+                                              <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                              <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                              <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                              <li><a href="#" target="_blank"><i class="fab fa-vk"></i></a></li>
+                                          </ul>
+                                          <a class="team-contact_link" href="#"><i class="fal fa-envelope"></i></a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="team-box col-md-3">
+                                  <div class="team-photo">
+                                      <img src="https://ca.slack-edge.com/TNGRRLUMA-U0141L0BS48-9a609dbfcab5-512" alt="" class="respimg">
+                                  </div>
+                                  <div class="team-info">
+                                      <div class="team-dec"><i class="fal fa-camera-retro"></i></div>
+                                      <h3><a href="#">Sondos</a></h3>
+                                      <h4>Fullstack developer</h4>
+                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+                                      <div class="team-social">
+                                          <ul>
+                                              <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                              <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                              <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                              <li><a href="#" target="_blank"><i class="fab fa-vk"></i></a></li>
+                                          </ul>
+                                          <a class="team-contact_link" href="#"><i class="fal fa-envelope"></i></a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="team-box col-md-3">
+                                  <div class="team-photo">
+                                      <img src="https://ca.slack-edge.com/TNGRRLUMA-U013538FW6A-b42343105770-512" alt="" class="respimg">
+                                  </div>
+                                  <div class="team-info">
+                                      <div class="team-dec"><i class="fal fa-desktop"></i></div>
+                                      <h3><a href="#">Rania</a></h3>
+                                      <h4>Fullstack developer</h4>
+                                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+                                      <div class="team-social">
+                                          <ul>
+                                              <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                              <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                              <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                              <li><a href="#" target="_blank"><i class="fab fa-vk"></i></a></li>
+                                          </ul>
+                                          <a class="team-contact_link" href="#"><i class="fal fa-envelope"></i></a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="team-box col-md-3">
+                                <div class="team-photo">
+                                    <img src="https://ca.slack-edge.com/TNGRRLUMA-U012J0NPRSN-578e7c36da49-512" alt="" class="respimg">
+                                </div>
+                                <div class="team-info">
+                                    <div class="team-dec"><i class="fal fa-desktop"></i></div>
+                                    <h3><a href="#">Rania</a></h3>
+                                    <h4>Fullstack developer</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.  </p>
+                                    <div class="team-social">
+                                        <ul>
+                                            <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                                            <li><a href="#" target="_blank"><i class="fab fa-vk"></i></a></li>
+                                        </ul>
+                                        <a class="team-contact_link" href="#"><i class="fal fa-envelope"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                  </section>
+              </div>
+          </div>
+          <!--wrapper end -->
+<%- include('../layout/footer') %>
