@@ -32,7 +32,7 @@ app.get('/single', singleRestaurant);
 app.post('/collection', saveToFav);
 app.get('/collection', collection);
 app.post('/testimonial', addReview)
-// app.get('/',selectReview)
+    // app.get('/',selectReview)
 
 app.get('/hotels', handelHotels);
 
@@ -59,23 +59,23 @@ function handelHotels(id) {
     };
 
     let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
-  return  superagent.get(encodeURI(url))
+    return superagent.get(encodeURI(url))
         .query(qs)
         .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
         .set('x-rapidapi-key', `17b4c35337mshcca2a4e363e9166p1b9820jsnfac672d7cc8d`)
         .set('useQueryString', true)
         .then(hotelresults => {
-        return  hotelresults.body.data.map(e => {
-                return new Hotel(e);
-            })
-        // res.send(hotelresults.body)
-        // res.send(hotel)
+            return hotelresults.body.data.map(e => {
+                    return new Hotel(e);
+                })
+                // res.send(hotelresults.body)
+                // res.send(hotel)
 
         });
 }
 
 
-function aboutUs(req,res){
+function aboutUs(req, res) {
     res.render('pages/about-us')
 }
 
@@ -111,14 +111,14 @@ function handelLocation(locationName) {
         .then(locationReesult => {
 
             return new Location(locationReesult.body.data[0].result_object)
-            
+
 
         });
 }
 
 function handleHome(req, res) {
 
-    (async () => {
+    (async() => {
         try {
             let review = await selectReview()
             res.render('./index', { list: review });
@@ -136,7 +136,7 @@ function handleHome(req, res) {
 function getResults(req, res) {
     let location_id = req.body.place_name;
     let budget = req.body.budget;
-    (async () => {
+    (async() => {
         try {
             let location = await handelLocation(location_id);
             let code = await getcode(req.body.place_name);
@@ -145,7 +145,7 @@ function getResults(req, res) {
             let restuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);
             console.log(hotel)
-            res.render('./pages/search_result', { data: { location, restuarant, flight ,hotel} });
+            res.render('./pages/search_result', { data: { location, restuarant, flight, hotel } });
 
         } catch (error) {
             console.error(error);
@@ -253,7 +253,6 @@ function singleRestaurant(req, res) {
         res.render('./pages/single_restaurant', { result: data.rows[0] });
 
     })
-
 }
 
 function collection(req, res) {
@@ -293,9 +292,45 @@ function addReview(req, res) {
 
 }
 
+function addRestRev(req, res) {
+    let SQL = 'INSERT INTO reviewRest (score, email, name, review ,idRest) VALUES ($1,$2,$3,$4,$5);'
+    let $1 = req.body.rgcl;
+    let $2 = req.body.email;
+    let $3 = req.body.name;
+    let $4 = req.body.review;
+    let $5 = req.query.id;
+
+    let values = [$1, $2, $3, $4, $5];
+
+    console.log(req.body)
+
+    return client.query(SQL, values)
+        .then(() => {
+
+            res.redirect('back')
+        })
+        .catch(error => {
+            close.log(error);
+
+        })
+}
+
+
 function selectReview() {
 
     let SQL = 'select * from review;'
+
+    return client.query(SQL)
+        .then((result) => {
+            return (result.rows)
+
+        })
+
+}
+
+function selectRestReview() {
+
+    let SQL = 'select * from reviewRest;'
 
     return client.query(SQL)
         .then((result) => {
@@ -342,7 +377,7 @@ function Restaurant(data) {
 // Hotels
 function Hotel(data) {
     this.location = data.location_id;
-    this.name=data.name
+    this.name = data.name
     this.locationName = data.location_string;
     this.latitude = data.latitude || '';
     this.longitude = data.longitude || '';
