@@ -146,7 +146,7 @@ function getResults(req, res) {
             let code = await getcode(req.body.place_name);
             let flight = await getFlightPrice(code);
             let dailyBudget = (budget - flight) / 10;
-            res.send(flight);
+            // res.send(flight);
             let restuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);
             console.log(hotel)
