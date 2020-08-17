@@ -145,13 +145,13 @@ function getResults(req, res) {
             let dailyBudget = (budget - flight) / 10;
             res.send(flight);
             let restuarant = await getRestaurant(location.location_id, '10951');
-            // res.render('./pages/search_result', {
-            //     data: {
-            //         location,
-            //         restuarant,
-            //         flight
-            //     }
-            // });
+            res.render('./pages/search_result', {
+                data: {
+                    location,
+                    restuarant,
+                    flight
+                }
+            });
         } catch (error) {
             console.error(error);
         }

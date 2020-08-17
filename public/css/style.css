@@ -5478,7 +5478,7 @@ input[type=number] {
 }
 
 .list-single-main-container {
-	padding-left: 60px;
+	/* padding-left: 60px; */
 }
 
 .list-single-main-item {
