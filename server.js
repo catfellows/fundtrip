@@ -59,23 +59,23 @@ function handelHotels(id) {
     };
 
     let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
-  return  superagent.get(encodeURI(url))
+    return superagent.get(encodeURI(url))
         .query(qs)
         .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
         .set('x-rapidapi-key', `17b4c35337mshcca2a4e363e9166p1b9820jsnfac672d7cc8d`)
         .set('useQueryString', true)
         .then(hotelresults => {
-        return  hotelresults.body.data.map(e => {
+            return hotelresults.body.data.map(e => {
                 return new Hotel(e);
             })
-        // res.send(hotelresults.body)
-        // res.send(hotel)
+            // res.send(hotelresults.body)
+            // res.send(hotel)
 
         });
 }
 
 
-function aboutUs(req,res){
+function aboutUs(req, res) {
     res.render('pages/about-us')
 }
 
@@ -111,7 +111,7 @@ function handelLocation(locationName) {
         .then(locationReesult => {
 
             return new Location(locationReesult.body.data[0].result_object)
-            
+
 
         });
 }
@@ -145,7 +145,7 @@ function getResults(req, res) {
             let restuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);
             console.log(hotel)
-            res.render('./pages/search_result', { data: { location, restuarant, flight ,hotel} });
+            res.render('./pages/search_result', { data: { location, restuarant, flight, hotel } });
 
         } catch (error) {
             console.error(error);
@@ -342,7 +342,7 @@ function Restaurant(data) {
 // Hotels
 function Hotel(data) {
     this.location = data.location_id;
-    this.name=data.name
+    this.name = data.name
     this.locationName = data.location_string;
     this.latitude = data.latitude || '';
     this.longitude = data.longitude || '';
@@ -358,9 +358,9 @@ function Hotel(data) {
 function Flight(data) {
     this.type = 'flight'
     this.departure = 'AMM',
-        this.arrival = data.itineraries.segments.arrival.iataCode || '',
-        this.date = data.itineraries.segments.departure.at.subString(0, 11) || '',
-        this.base = data.price.base || '';
+    this.arrival = data.itineraries.segments.arrival.iataCode || '',
+    this.date = data.itineraries.segments.departure.at.subString(0, 11) || '',
+    this.base = data.price.base || '';
     this.total = data.price.total || '';
     this.currency = data.price.currency || '';
     this.grandTotal = data.price.grandTotal || '';
