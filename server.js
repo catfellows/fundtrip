@@ -29,9 +29,9 @@ app.post('/result', getResults);
 app.get('/single', singleRestaurant);
 app.post('/collection', saveToFav);
 app.get('/collection', collection);
-app.post('/testimonial', addReview)
-    // app.get('/',selectReview)
-
+app.post('/testimonial', addReview);
+// app.get('/',selectReview)
+app.post('/restRev', addRestRev);
 app.get('/hotels', handelHotels);
 
 
@@ -234,7 +234,6 @@ function singleRestaurant(req, res) {
         // res.send(data)
         res.render('./pages/single_restaurant');
     })
-
 }
 
 function collection(req, res) {
@@ -274,9 +273,45 @@ function addReview(req, res) {
 
 }
 
+function addRestRev(req, res) {
+    let SQL = 'INSERT INTO reviewRest (score, email, name, review ,idRest) VALUES ($1,$2,$3,$4,$5);'
+    let $1 = req.body.rgcl;
+    let $2 = req.body.email;
+    let $3 = req.body.name;
+    let $4 = req.body.review;
+    let $5 = req.query.id;
+
+    let values = [$1, $2, $3, $4, $5];
+
+    console.log(req.body)
+
+    return client.query(SQL, values)
+        .then(() => {
+
+            res.redirect('back')
+        })
+        .catch(error => {
+            close.log(error);
+
+        })
+}
+
+
 function selectReview() {
 
     let SQL = 'select * from review;'
+
+    return client.query(SQL)
+        .then((result) => {
+            return (result.rows)
+
+        })
+
+}
+
+function selectRestReview() {
+
+    let SQL = 'select * from reviewRest;'
 
     return client.query(SQL)
         .then((result) => {

@@ -18,3 +18,17 @@ CREATE TABLE review (
                                 cursus. Nulla eu mi magna. Etiam suscipit commodo gravida. Lorem ipsum dolor sit
                                 amet, conse ctetuer adipiscing elit, sed diam nonu mmy nibh euismod tincidunt ut
                                 laoreet dolore magna aliquam erat.');
+
+DROP TABLE IF EXISTS reviewRest;
+
+CREATE TABLE reviewRest (
+    id SERIAL PRIMARY KEY,
+    score INT ,
+    email VARCHAR(255),
+    name VARCHAR(255),
+    review VARCHAR,
+    idRest INT,
+    review_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+  );
+
+                                 
