@@ -929,7 +929,7 @@ function initEasybook() {
       height: $('.slider-container').outerHeight(true)
     });
     $('.map-container.column-map').css({
-      height: $(window).outerHeight(true) - 110 + 'px'
+      height: $(window).outerHeight(true) - 50 + 'px'
     });
   }
   csselem();

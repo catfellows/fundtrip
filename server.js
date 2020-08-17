@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const superagent = require('superagent');
+const methodOverride = require('method-override')
 const PORT = process.env.PORT || 3000;
 
 const pg = require('pg');
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(methodOverride('_method'))
 
 
 app.get('/', handleHome);
@@ -31,8 +33,10 @@ app.post('/result', getResults);
 app.get('/single', singleRestaurant);
 app.post('/collection', saveToFav);
 app.get('/collection', collection);
-app.post('/testimonial', addReview)
+app.post('/testimonial', addReview);
+app.post('/restRev', addRestRev);
 // app.get('/',selectReview)
+app.delete('/delete',handelDelete)
 
 app.get('/hotels', handelHotels);
 
@@ -62,17 +66,17 @@ function handelHotels(id) {
 
     let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
 
-  return superagent.get(encodeURI(url))
+    return superagent.get(encodeURI(url))
         .query(qs)
         .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
         .set('x-rapidapi-key', `17b4c35337mshcca2a4e363e9166p1b9820jsnfac672d7cc8d`)
         .set('useQueryString', true)
         .then(hotelresults => {
             return hotelresults.body.data.map(e => {
-                    return new Hotel(e);
-                })
-                // res.send(hotelresults.body)
-                // res.send(hotel)
+                return new Hotel(e);
+            })
+            // res.send(hotelresults.body)
+            // res.send(hotel)
         });
 }
 
@@ -146,11 +150,17 @@ function getResults(req, res) {
             let code = await getcode(req.body.place_name);
             let flight = await getFlightPrice(code);
             let dailyBudget = (budget - flight) / 10;
-            // res.send(flight);
             let restuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);
             console.log(hotel)
-            res.render('./pages/search_result', { data: { location, restuarant, flight, hotel } });
+            res.render('./pages/search_result', {
+                data: {
+                    location,
+                    restuarant,
+                    flight,
+                    hotel
+                }
+            });
 
         } catch (error) {
             console.error(error);
@@ -169,12 +179,13 @@ function getResults(req, res) {
 function saveToFav(req, res) {
     let data = req.body;
     // let id = req.params.id;
-    let SQL = 'INSERT INTO favorite(location_id, name,description,num_reviews,rating,price_level,phone,address,image,latitude,longitude,type) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id'
+    let SQL = 'INSERT INTO favorite(location_id, name,description,num_reviews,rating,price_level,phone,address,image,latitude,longitude,type) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id';
     let array = [data.location_id, data.name, data.description, data.num_reviews, data.rating, data.price_level, data.phone, data.address, data.image, data.latitude, data.longitude, data.type];
     client.query(SQL, array).then(response => {
+        // res.send(response);
         // res.render(`./pages/single/${response.rows[0].id}`);
         res.redirect(`/single?id=${response.rows[0].id}`)
-    })
+    });
 }
 
 
@@ -255,7 +266,9 @@ function singleRestaurant(req, res) {
     let value = [req.query.id];
     client.query(SQL, value).then(data => {
         // res.send(data)
-        res.render('./pages/single_restaurant', { result: data.rows[0] });
+        res.render('./pages/single_restaurant', {
+            result: data.rows[0]
+        });
 
     })
 }
@@ -292,11 +305,9 @@ function addReview(req, res) {
             res.redirect(`/`)
         })
         .catch(error => {
-            close.log(error);
+            console.log(error);
 
         })
-
-
 }
 
 function addRestRev(req, res) {
@@ -313,13 +324,11 @@ function addRestRev(req, res) {
 
     return client.query(SQL, values)
         .then(() => {
-
             res.redirect('back')
         })
         .catch(error => {
-            close.log(error);
-
-        })
+            console.log(error);
+        });
 }
 
 
@@ -347,7 +356,22 @@ function selectRestReview() {
 
 }
 
+function handelDelete(req, res) {
 
+    let SQL = 'delete from favorite where id=$1;';
+    let id = [req.query.id];
+    console.log(id)
+  
+    return client.query(SQL, id)
+      .then(() => {
+  
+        res.redirect(`/collection`)
+      })
+      .catch(error => {
+        close.log(error);
+        res.render('pages/error');
+      })
+  }
 
 
 // Constructors
