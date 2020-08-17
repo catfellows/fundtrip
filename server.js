@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const superagent = require('superagent');
+const methodOverride = require('method-override')
 const PORT = process.env.PORT || 3000;
 
 const pg = require('pg');
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(methodOverride('_method'))
 
 
 app.get('/', handleHome);
@@ -31,8 +33,10 @@ app.post('/result', getResults);
 app.get('/single', singleRestaurant);
 app.post('/collection', saveToFav);
 app.get('/collection', collection);
-app.post('/testimonial', addReview)
+app.post('/testimonial', addReview);
+app.post('/restRev', addRestRev);
 // app.get('/',selectReview)
+app.delete('/delete',handelDelete)
 
 app.get('/hotels', handelHotels);
 
@@ -62,7 +66,7 @@ function handelHotels(id) {
 
     let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
 
-  return superagent.get(encodeURI(url))
+    return superagent.get(encodeURI(url))
         .query(qs)
         .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
         .set('x-rapidapi-key', `17b4c35337mshcca2a4e363e9166p1b9820jsnfac672d7cc8d`)
@@ -120,7 +124,7 @@ function handelLocation(locationName) {
 
 function handleHome(req, res) {
 
-    (async () => {
+    (async() => {
         try {
             let review = await selectReview()
             res.render('./index', {
@@ -140,7 +144,7 @@ function handleHome(req, res) {
 function getResults(req, res) {
     let location_id = req.body.place_name;
     let budget = req.body.budget;
-    (async () => {
+    (async() => {
         try {
             let location = await handelLocation(location_id);
             let code = await getcode(req.body.place_name);
@@ -149,7 +153,14 @@ function getResults(req, res) {
             let restuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);
             console.log(hotel)
-            res.render('./pages/search_result', { data: { location, restuarant, flight, hotel } });
+            res.render('./pages/search_result', {
+                data: {
+                    location,
+                    restuarant,
+                    flight,
+                    hotel
+                }
+            });
 
         } catch (error) {
             console.error(error);
@@ -168,12 +179,13 @@ function getResults(req, res) {
 function saveToFav(req, res) {
     let data = req.body;
     // let id = req.params.id;
-    let SQL = 'INSERT INTO favorite(location_id, name,description,num_reviews,rating,price_level,phone,address,image,latitude,longitude,type) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id'
+    let SQL = 'INSERT INTO favorite(location_id, name,description,num_reviews,rating,price_level,phone,address,image,latitude,longitude,type) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING id';
     let array = [data.location_id, data.name, data.description, data.num_reviews, data.rating, data.price_level, data.phone, data.address, data.image, data.latitude, data.longitude, data.type];
     client.query(SQL, array).then(response => {
+        // res.send(response);
         // res.render(`./pages/single/${response.rows[0].id}`);
         res.redirect(`/single?id=${response.rows[0].id}`)
-    })
+    });
 }
 
 
@@ -249,14 +261,30 @@ function getRestaurant(location_id, prices_restaurants) {
 
 function singleRestaurant(req, res) {
 
-
+    let id = req.query.id;
     let SQL = "SELECT * FROM favorite  WHERE id=$1 ";
-    let value = [req.query.id];
-    client.query(SQL, value).then(data => {
-        // res.send(data)
-        res.render('./pages/single_restaurant', { result: data.rows[0] });
 
-    })
+    (async() => {
+        try {
+
+            let revData = await selectRestReview(id);
+            let value = [id];
+            client.query(SQL, value).then(data => {
+                //res.send(revData)
+                res.render('./pages/single_restaurant', {
+                    result: data.rows[0],
+                    reviewData: revData
+                });
+
+            });
+
+
+        } catch (error) {
+            console.error(error);
+        }
+    })();
+
+
 }
 
 function collection(req, res) {
@@ -291,11 +319,9 @@ function addReview(req, res) {
             res.redirect(`/`)
         })
         .catch(error => {
-            close.log(error);
+            console.log(error);
 
         })
-
-
 }
 
 function addRestRev(req, res) {
@@ -312,13 +338,11 @@ function addRestRev(req, res) {
 
     return client.query(SQL, values)
         .then(() => {
-
             res.redirect('back')
         })
         .catch(error => {
-            close.log(error);
-
-        })
+            console.log(error);
+        });
 }
 
 
@@ -334,10 +358,9 @@ function selectReview() {
 
 }
 
-function selectRestReview() {
+function selectRestReview(id) {
 
-    let SQL = 'select * from reviewRest;'
-
+    let SQL = `select * from reviewRest where idrest = ${id};`
     return client.query(SQL)
         .then((result) => {
             return (result.rows)
@@ -347,10 +370,25 @@ function selectRestReview() {
 }
 
 
+function handelDelete(req, res) {
+
+    let SQL = 'delete from favorite where id=$1;';
+    let id = [req.query.id];
+    console.log(id)
+  
+    return client.query(SQL, id)
+      .then(() => {
+  
+        res.redirect(`/collection`)
+      })
+      .catch(error => {
+        close.log(error);
+        res.render('pages/error');
+      })
+  }
 
 
 // Constructors
-
 // Location
 function Location(data) {
     this.name = data.name;

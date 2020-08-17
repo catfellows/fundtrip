@@ -27,19 +27,19 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="col-md-5">
-                                    <div class="list-single-hero-details fl-wrap">
-                                        <div class="list-single-hero-rating">
-                                            <div class="rate-class-name">
-                                                <div class="score"><strong>Very Good</strong>2 Reviews </div>
-                                                <span>4.5</span>
-                                            </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="list-single-hero-details fl-wrap">
+                                    <div class="list-single-hero-rating">
+                                        <div class="rate-class-name">
+                                            <div class="score"><strong>Very Good</strong>2 Reviews </div>
+                                            <span>4.5</span>
                                         </div>
-                                        <div class="clearfix"></div>
-                                        <div class="list-single-hero-links">
-                                            <a class="custom-scroll-link lisd-link" href="#sec6"><i
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <div class="list-single-hero-links">
+                                        <a class="custom-scroll-link lisd-link" href="#sec6"><i
                                             class="fal fa-comment-alt-check"></i> Delete</a>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -107,146 +107,139 @@
                                 <div class="list-single-main-item-title fl-wrap">
                                     <h3>Description </h3>
                                 </div>
-                                <p>
-                                    <%= result.description %>
-                                </p>
 
-                            </div>
-                            <!--   list-single-main-item -->
-                            <div class="list-single-main-item fl-wrap" id="sec3">
-                                <div class="list-single-main-item-title fl-wrap">
-                                    <h3>Amenities</h3>
-                                </div>
-                                <div class="listing-features fl-wrap">
-                                    <ul>
-                                        <li><i class="fal fa-wifi"></i> Free Wi Fi</li>
-                                        <li><i class="fal fa-parking"></i> Free Parking</li>
-                                        <li><i class="fal fa-snowflake"></i> Air Conditioned</li>
-                                        <li><i class="fal fa-paw"></i> Pet Friendly</li>
-                                        <li><i class="fal fa-wheelchair"></i> Wheelchair Friendly</li>
-                                    </ul>
-                                </div>
+                                <div class="list-single-main-item fl-wrap">
+                                    <div class="list-single-main-item-title fl-wrap">
+                                        <h3>Description </h3>
+                                    </div>
+                                    <p>
+                                        <%= result.description %>
+                                    </p>
 
-                            </div>
-                            <!-- list-single-main-item -->
-                            <div class="list-single-main-item fl-wrap" id="sec5">
-                                <div class="list-single-main-item-title fl-wrap">
-                                    <h3>Reviews</h3>
                                 </div>
-                                <div class="reviews-comments-wrap">
-                                    <div class="reviews-comments-item">
-                                        <div class="review-comments-avatar">
-                                            <img src="images\avatar\2.jpg" alt="">
-                                        </div>
-                                        <div class="reviews-comments-item-text">
-                                            <h4><a href="#">Liza Rose</a></h4>
-                                            <div class="review-score-user">
-                                                <span>4.4</span>
-                                                <strong>Good</strong>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <p>" Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet
-                                                a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. "
-                                            </p>
-                                            <div class="reviews-comments-item-date"><span><i
-                                                        class="far fa-calendar-check"></i>12 April 2018</span>
-                                            </div>
-                                        </div>
+                                <!--   list-single-main-item -->
+                                <div class="list-single-main-item fl-wrap" id="sec3">
+                                    <div class="list-single-main-item-title fl-wrap">
+                                        <h3>Amenities</h3>
                                     </div>
-                                    <!-- reviews-comments-item -->
-                                    <div class="reviews-comments-item">
-                                        <div class="review-comments-avatar">
-                                            <img src="images\avatar\5.jpg" alt="">
-                                        </div>
-                                        <div class="reviews-comments-item-text">
-                                            <h4><a href="#">Adam Koncy</a></h4>
-                                            <div class="review-score-user">
-                                                <span>4.7</span>
-                                                <strong>Very Good</strong>
-                                            </div>
-                                            <div class="clearfix"></div>
-                                            <p>" Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc posuere convallis purus non cursus. Cras metus neque, gravida sodales massa ut. "
-                                            </p>
-                                            <div class="reviews-comments-item-date"><span><i
-                                                        class="far fa-calendar-check"></i>03 December 2017</span>
-                                            </div>
-                                        </div>
+                                    <div class="listing-features fl-wrap">
+                                        <ul>
+                                            <li><i class="fal fa-wifi"></i> Free Wi Fi</li>
+                                            <li><i class="fal fa-parking"></i> Free Parking</li>
+                                            <li><i class="fal fa-snowflake"></i> Air Conditioned</li>
+                                            <li><i class="fal fa-paw"></i> Pet Friendly</li>
+                                            <li><i class="fal fa-wheelchair"></i> Wheelchair Friendly</li>
+                                        </ul>
                                     </div>
+
                                 </div>
-                            </div>
-                            <!-- list-single-main-item -->
-                            <div class="list-single-main-item fl-wrap" id="sec6">
-                                <div class="list-single-main-item-title fl-wrap">
-                                    <h3>Add Review</h3>
-                                </div>
-                                <div id="add-review" class="add-review-box">
-                                    <form action="/restRev?id=1" method="POST" id="add-comment" class="add-comment  custom-form" name="rangeCalc">
-                                        <fieldset>
-                                            <div class="review-score-form fl-wrap">
-                                                <div class="review-range-container">
-                                                    <div class="review-range-item">
-                                                        <div class="range-slider-title">Score</div>
-                                                        <div class="range-slider-wrap ">
-                                                            <input type="text" class="rate-range" data-min="0" data-max="5" name="rgcl" data-step="1" value="4">
-                                                        </div>
+                                <!-- list-single-main-item -->
+                                <div class="list-single-main-item fl-wrap" id="sec5">
+                                    <div class="list-single-main-item-title fl-wrap">
+                                        <h3>Reviews</h3>
+                                    </div>
+                                    <div class="reviews-comments-wrap">
+                                        <% reviewData.forEach ( item => { %>
+                                            <div class="reviews-comments-item">
+                                                <div class="review-comments-avatar">
+                                                    <img src="images\avatar\2.jpg" alt="">
+                                                </div>
+                                                <div class="reviews-comments-item-text">
+                                                    <h4>
+                                                        <a href="#">
+                                                            <%= item.name %>
+                                                        </a>
+                                                    </h4>
+                                                    <div class="review-score-user">
+                                                        <span><%= item.score %></span>
+                                                        <strong>Good</strong>
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                    <p>
+                                                        <%= item.review %>
+                                                    </p>
+                                                    <div class="reviews-comments-item-date"><span><i
+                                                            class="far fa-calendar-check"></i><%= item.review_date.toString().slice(0, 15); %></span>
                                                     </div>
                                                 </div>
-                                                <input type="hidden" name="rg_total" data-form="AVG({rgcl})" value="0">
                                             </div>
-                                            <input type="hidden" name="rg_total" data-form="AVG({rgcl})" value="0">
+                                            <%  }) %>
+
+
+                                    </div>
                                 </div>
-                                <div>
-                                    <div class="col-md-6">
-                                        <label><i class="fal fa-user"></i></label>
-                                        <input type="text" placeholder="Your Name *" value="">
+                                <!-- list-single-main-item -->
+                                <div class="list-single-main-item fl-wrap" id="sec6">
+                                    <div class="list-single-main-item-title fl-wrap">
+                                        <h3>Add Review</h3>
                                     </div>
-                                    <div class="col-md-6">
-                                        <label><i class="fal fa-envelope"></i> </label>
-                                        <input type="text" placeholder="Email Address*" value="">
-                                    </div>
-                                    <textarea cols="40" rows="3" name="review" placeholder="Your Review:"></textarea>
-                                    </fieldset>
-                                    <button class="btn  big-btn flat-btn float-btn color2-bg" style="margin-top:30px">Submit Review <i
+                                    <div id="add-review" class="add-review-box">
+                                        <form action="/restRev?id=1" method="POST" id="add-comment" class="add-comment  custom-form" name="rangeCalc">
+                                            <fieldset>
+                                                <div class="review-score-form fl-wrap">
+                                                    <div class="review-range-container">
+                                                        <div class="review-range-item">
+                                                            <div class="range-slider-title">Score</div>
+                                                            <div class="range-slider-wrap ">
+                                                                <input type="text" class="rate-range" data-min="0" data-max="5" name="rgcl" data-step="1" value="4">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="hidden" name="rg_total" data-form="AVG({rgcl})" value="0">
+                                                </div>
+                                                <div>
+                                                    <div class="col-md-6">
+                                                        <label><i class="fal fa-user"></i></label>
+                                                        <input type="text" name="name" placeholder="Your Name *" value="">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label><i class="fal fa-envelope"></i> </label>
+                                                        <input type="text" name="email" placeholder="Email Address*" value="">
+                                                    </div>
+                                                </div>
+                                                <textarea cols="40" name="review" rows="3" placeholder="Your Review:"></textarea>
+                                            </fieldset>
+                                            <button class="btn  big-btn flat-btn float-btn color2-bg" style="margin-top:30px">Submit Review <i
                                                 class="fal fa-paper-plane"></i></button>
-                                    </form>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--   sidebar  -->
+                        <div class="col-md-4 contact-information">
+                            <div class="box-widget-wrap">
+                                <div class="box-widget-item fl-wrap">
+                                    <div class="box-widget">
+                                        <div class="box-widget-content">
+                                            <div class="box-widget-item-header">
+                                                <h3> Contact Information</h3>
+                                            </div>
+                                            <div class="box-widget-list">
+                                                <ul>
+                                                    <li><span><i class="fal fa-map-marker"></i> Adress :</span> <a href="#">USA 27TH Brooklyn NY</a></li>
+                                                    <li><span><i class="fal fa-phone"></i> Phone :</span> <a href="#">+7(123)987654</a></li>
+                                                    <li><span><i class="fal fa-envelope"></i> Mail :</span> <a href="#">AlisaNoory@domain.com</a></li>
+                                                    <li><span><i class="fal fa-browser"></i> Website :</span> <a href="#">waleedafifi.net</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="list-widget-social">
+                                                <ul>
+                                                    <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                                    </li>
+                                                    <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                                                    <li><a href="#" target="_blank"><i class="fab fa-vk"></i></a></li>
+                                                    <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--   sidebar  -->
-                <div class="col-md-4 contact-information">
-                    <div class="box-widget-wrap">
-                        <div class="box-widget-item fl-wrap">
-                            <div class="box-widget">
-                                <div class="box-widget-content">
-                                    <div class="box-widget-item-header">
-                                        <h3> Contact Information</h3>
-                                    </div>
-                                    <div class="box-widget-list">
-                                        <ul>
-                                            <li><span><i class="fal fa-map-marker"></i> Adress :</span> <a href="#">USA 27TH Brooklyn NY</a></li>
-                                            <li><span><i class="fal fa-phone"></i> Phone :</span> <a href="#">+7(123)987654</a></li>
-                                            <li><span><i class="fal fa-envelope"></i> Mail :</span> <a href="#">AlisaNoory@domain.com</a></li>
-                                            <li><span><i class="fal fa-browser"></i> Website :</span> <a href="#">waleedafifi.net</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="list-widget-social">
-                                        <ul>
-                                            <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                                            </li>
-                                            <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#" target="_blank"><i class="fab fa-vk"></i></a></li>
-                                            <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             </section>
         </div>
         <div class="limit-box fl-wrap"></div>
