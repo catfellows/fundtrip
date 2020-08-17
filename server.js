@@ -35,6 +35,8 @@ app.post('/collection', saveToFav);
 app.get('/collection', collection);
 app.post('/testimonial', addReview);
 app.post('/restRev', addRestRev);
+app.get('/contactUs',contactUs);
+app.get('/contactUs',saveMess);
 // app.get('/',selectReview)
 app.delete('/delete',handelDelete)
 
@@ -43,6 +45,16 @@ app.get('/hotels', handelHotels);
 
 app.get('/*', handleError);
 
+function saveMess(req,res){
+    let data = req.body;
+    let SQL = 'INSERT INTO message(fname,lname,subject,message) VALUES ($1,$2,$3,$4)';
+    let array = [data.fname, data.lname, data.subject, data.message];
+    client.query(SQL, array).then(response => {
+        // res.send(response);
+        // res.render(`./pages/single/${response.rows[0].id}`);
+        res.redirect('back')
+    });
+}
 function handelHotels(id) {
 
     let qs = {
@@ -80,7 +92,9 @@ function handelHotels(id) {
         });
 }
 
-
+function contactUs(req,res){
+    res.render('pages/contact')
+}
 function aboutUs(req, res) {
     res.render('pages/about-us')
 }

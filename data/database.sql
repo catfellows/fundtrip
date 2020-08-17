@@ -1,5 +1,6 @@
 drop table if EXISTS favorite;
 DROP TABLE if EXISTS subscribe;
+DROP TABLE if EXISTS message;
 
 create table favorite (
     id serial PRIMARY KEY,
@@ -21,3 +22,12 @@ create table subscribe (
     id serial PRIMARY KEY,
     email VARCHAR(255)
 );
+
+create table message (
+    id serial PRIMARY KEY,
+    lname VARCHAR(255),
+    fname VARCHAR(255),
+    messege VARCHAR(255),
+    subject VARCHAR(255)
+);
+
