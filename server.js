@@ -130,8 +130,8 @@ function getResults(req, res) {
             let code = await getcode(req.body.place_name);
             let flight = await getFlightPrice(code);
             let dailyBudget = (budget - flight) / 10;
-            let retuarant = await getRestaurant(location.location_id, '10951');
-            res.render('./pages/search_result', { data: { location, retuarant, flight } });
+            let restuarant = await getRestaurant(location.location_id, '10951');
+            res.render('./pages/search_result', { data: { location, restuarant, flight } });
         } catch (error) {
             console.error(error);
         }
