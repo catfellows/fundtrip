@@ -266,7 +266,6 @@ function singleRestaurant(req, res) {
 
     (async() => {
         try {
-
             let revData = await selectRestReview(id);
             let value = [id];
             client.query(SQL, value).then(data => {
@@ -275,16 +274,11 @@ function singleRestaurant(req, res) {
                     result: data.rows[0],
                     reviewData: revData
                 });
-
             });
-
-
         } catch (error) {
             console.error(error);
         }
     })();
-
-
 }
 
 function collection(req, res) {
@@ -348,25 +342,21 @@ function addRestRev(req, res) {
 
 function selectReview() {
 
-    let SQL = 'select * from review;'
+    let SQL = `select * from review`
 
     return client.query(SQL)
         .then((result) => {
             return (result.rows)
-
         })
-
 }
 
 function selectRestReview(id) {
 
-    let SQL = `select * from reviewRest where idrest = ${id};`
+    let SQL = `select * from reviewRest where idRest = ${id};`
     return client.query(SQL)
         .then((result) => {
             return (result.rows)
-
         })
-
 }
 
 

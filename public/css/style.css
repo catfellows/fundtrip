@@ -5689,6 +5689,7 @@ article.post-article .list-single-main-item {
 .box-widget-list li a {
 	margin-left: 20px;
 	color: #878C9F;
+	
 }
 
 .list-widget-social {
@@ -6452,7 +6453,7 @@ article.post-article .list-single-main-item {
 }
 
 .reviews-comments-wrap {
-	display: inline-table;
+	/* display: inline-table; */
 	margin-top: 30px;
 }
 
