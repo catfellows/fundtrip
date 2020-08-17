@@ -124,23 +124,23 @@
 
 
                         <% data.hotel.forEach( item => { %>
-                            <form action="/collection" method="post" style="display: inline;">
+                            <!-- <form action="/collection" method="post" style="display: inline;"> -->
                                 <div class="listing-item" data-type="Hotels">
                                     <article class="geodir-category-listing fl-wrap">
                                         <div class="geodir-category-img">
                                             <a href="listing-single.html"><img src="<%= item.photo %>" alt=""></a>
-                                            <input type="hidden" name="image" id="" value="<%= item.photo %>">
+                                            <!-- <input type="hidden" name="image" id="" value="<%= item.photo %>"> -->
                                             <div class="geodir-category-opt">
                                                 <div class="listing-rating card-popup-rainingvis"
                                                     data-starrating2="<%= item.rating %>">
                                                 </div>
-                                                <input type="hidden" name="rating" id="" value="<%= item.rating %>">
+                                                <!-- <input type="hidden" name="rating" id="" value="<%= item.rating %>"> -->
                                                 <div class="rate-class-name">
                                                     <div class="score"><strong>Very Good</strong><%= item.num_reviews %>
                                                         Reviews </div>
                                                     <span><%= item.rating %></span>
                                                 </div>
-                                                <input type="hidden" name="num_reviews" id="" value="<%= item.num_reviews %>">
+                                                <!-- <input type="hidden" name="num_reviews" id="" value="<%= item.num_reviews %>"> -->
                                             </div>
                                         </div>
                                         <div class="geodir-category-content fl-wrap">
@@ -148,12 +148,12 @@
                                                 <div class="geodir-category-content-title-item">
                                                     <h3 class="title-sin_map"><a href="listing-single.html"><%= item.name %></a>
                                                     </h3>
-                                                    <input type="hidden" name="name" id="" value="<%= item.name %>">
+                                                    <!-- <input type="hidden" name="name" id="" value="<%= item.name %>"> -->
                                                     <div class="geodir-category-location fl-wrap"><a href="#0"
                                                             class="map-item"><i class="fas fa-map-marker-alt"></i>
                                                             <%= item.locationName %></a></div>
                                                 </div>
-                                                <input type="hidden" name="address" id="" value="<%= item.locationName %>">
+                                                <!-- <input type="hidden" name="address" id="" value="<%= item.locationName %>"> -->
                                             </div>
                                             <!-- <p><%= item.ranking.substring(0, 150) %></p>
                                             <input type="hidden" name="description" id="" value="<%= item.ranking %>">
@@ -165,18 +165,18 @@
                                                 <li><i class="fal fa-utensils"></i><span> Hotel</span></li>
                                             </ul> -->
                                             <div class="geodir-category-footer fl-wrap">
-                                                <div class="geodir-category-price">Awg/Night
+                                                <div class="geodir-category-price">price level
                                                     <span><%= item.price %></span></div>
-                                                    <input type="hidden" name="price" id="" value="<%= item.price %>">
+                                                    <!-- <input type="hidden" name="price" id="" value="<%= item.price %>"> -->
                                                 <div class="geodir-opt-list">
                                                     <a href="#0" class="map-item"><i class="fal fa-map-marker-alt"></i><span
                                                             class="geodir-opt-tooltip">On the map
                                                             <strong>1</strong></span></a>
-                                                                <button type="submit" style="border: 0ch; background: transparent; ">
+                                                                <!-- <button type="submit" style="border: 0ch; background: transparent; ">
                                                                     <a class="geodir-js-favorite"><i class="fal fa-heart"></i><span
                                                                         class="geodir-opt-tooltip">Save</span></a>
-                                                                </button>
-                                                           </form>
+                                                                </button> -->
+                                                           <!-- </form> -->
                                                     <a href="#" class="geodir-js-booking"><i class="fal fa-exchange"></i><span
                                                             class="geodir-opt-tooltip">Find Directions</span></a>
                                                 </div>
@@ -185,6 +185,70 @@
                                     </article>
                                 </div>
                                 <% }); %>
+
+
+
+                                <% data.flight.forEach( item => { %>
+                                    <!-- <form action="/collection" method="post" style="display: inline;"> -->
+                                        <div class="listing-item" data-type="Flight tickets">
+                                            <article class="geodir-category-listing fl-wrap">
+                                                <div class="geodir-category-img">
+                                                    <a href="listing-single.html"><img src="https://image.freepik.com/free-photo/airplane-taking-off-from-airport_37416-65.jpg" alt=""></a>
+                                                    <!-- <input type="hidden" name="image" id="" value="<%= item.photo %>"> -->
+                                                    <div class="geodir-category-opt">
+                                                        <div class="listing-rating card-popup-rainingvis"
+                                                            data-starrating2="<%= item.type %>">
+                                                        </div>
+                                                        <!-- <input type="hidden" name="rating" id="" value="<%= item.rating %>"> -->
+                                                        <div class="rate-class-name">
+                                                            <div class="score">  <% if(item.grandTotal >= 500) { %>
+                                                                <strong>Not Recomended</strong> <small id="mydiv"></small>
+                                                                <% } else if( item.grandTotal  >= 350){ %>
+                                                                <strong>  Good</strong> <small id="mydiv"></small>
+                                                                <% } else if( item.grandTotal  >= 200){ %>
+                                                                <strong>Very Good</strong> <small id="mydiv"></small>
+                                                                <% } else { %>
+                                                                <strong>Recomended</strong> <small id="mydiv"></small>
+                                                           <% } %>
+                                                           <%= item.numberOfBookableSeats %>
+                                                                number of seats </div>
+                                                            <span><%= item.type %></span>
+                                                        </div>
+                                                        <!-- <input type="hidden" name="num_reviews" id="" value="<%= item.num_reviews %>"> -->
+                                                    </div>
+                                                </div>
+                                                <div class="geodir-category-content fl-wrap">
+                                                    <div class="geodir-category-content-title fl-wrap">
+                                                        <div class="geodir-category-content-title-item">
+                                                            <h3 class="title-sin_map"><a href="listing-single.html"><%= item.date %></a>
+                                                            </h3>
+                                                            <!-- <input type="hidden" name="name" id="" value="<%= item.name %>"> -->
+                                                            <div class="geodir-category-location fl-wrap"><a href="#0"
+                                                                    class="map-item"><i class="fas fa-map-marker-alt"></i>
+                                                                    <%= item.arrival %></a></div>
+                                                        </div>
+                                                        <!-- <input type="hidden" name="address" id="" value="<%= item.locationName %>"> -->
+                                                    </div>
+                                                
+                                                    <div class="geodir-category-footer fl-wrap">
+                                                        <div class="geodir-category-price">price level
+                                                            <span><%= item.grandTotal %></span></div>
+                                                            <!-- <input type="hidden" name="price" id="" value="<%= item.price %>"> -->
+                                                        <div class="geodir-opt-list">
+                                                         
+                                                                    
+                                                                        <!-- <button type="submit" style="border: 0ch; background: transparent; ">
+                                                                            <a class="geodir-js-favorite"><i class="fal fa-heart"></i><span
+                                                                                class="geodir-opt-tooltip">Save</span></a>
+                                                                        </button> -->
+                                                                   <!-- </form> -->
+                                                         
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                        <% }); %>
                     </div>
                 </div>
             </div>

@@ -153,6 +153,7 @@ function getResults(req, res) {
             let restuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);
             console.log(hotel)
+            // res.send(hotel)
             res.render('./pages/search_result', {
                 data: {
                     location,
@@ -427,9 +428,11 @@ function Hotel(data) {
 function Flight(data) {
     this.type = 'flight';
     this.departure = 'AMM';
-    this.arrival = data.itineraries[0].segments[0].arrival.iataCode || '';
+    // this.arrival = data.itineraries[0].segments[0].arrival.iataCode || '';
+    this.arrival = data  && data.itineraries[0] && data.itineraries[0].segments[0] && data.itineraries[0].segments[0].arrival&& data.itineraries[0].segments[0].arrival.iataCode || '';
     this.numberOfBookableSeats = data.numberOfBookableSeats || 0;
-    this.date = data.itineraries[0].segments[0].departure.at.subString(0, 11) || '';
+    // this.date = data.itineraries[0].segments[0].departure.at.subString(0, 11) || '';
+    this.date = data  && data.itineraries[0] && data.itineraries[0].segments[0] && data.itineraries[0].segments[0].departure && data.itineraries[0].segments[0].departure.at  || '';
     this.base = data.price.base || '';
     this.total = data.price.total || '';
     this.currency = data.price.currency || '';
