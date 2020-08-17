@@ -539,7 +539,7 @@ blockquote p {
 	height: 100%;
 	padding: 0;
 	z-index: 19;
-	width: 14%;
+	width: 30%;
 	float: right;
 }
 
@@ -3762,6 +3762,10 @@ input[type=number] {
 	border-radius: 4px;
 }
 
+.map-container.column-map.right-pos-map {
+	top: 50px!important;
+}
+
 .controls {
 	margin: 10px 0 0 10px;
 }
@@ -5478,7 +5482,7 @@ input[type=number] {
 }
 
 .list-single-main-container {
-	padding-left: 60px;
+	/* padding-left: 60px; */
 }
 
 .list-single-main-item {

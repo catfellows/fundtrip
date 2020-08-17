@@ -945,7 +945,7 @@ function initEasybook() {
       $('.main-menu nav').clone().addClass('menusb').appendTo('.main-menu');
       $('.menusb').menu();
       $('.map-container.fw-map.big_map.hid-mob-map').css({
-        height: $(window).outerHeight(true) - 110 + 'px'
+        height: $(window).outerHeight(true) - 50 + 'px'
       });
     } else {
       $('.menusb').remove();
