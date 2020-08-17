@@ -616,7 +616,7 @@ function initEasybook() {
   $('.scroll-nav-wrapper').scrollToFixed({
     minWidth: 768,
     zIndex: 1112,
-    marginTop: 110,
+    marginTop: 50,
     removeOffsets: true,
     limit: function () {
       var a = $('.limit-box').offset().top - $('.scroll-nav-wrapper').outerHeight(true) - 190;
