@@ -19,8 +19,17 @@
                                             data-starrating2="<%= item.rating %>">
                                         </div>
                                         <div class="rate-class-name">
-                                            <div class="score"><strong>Very Good</strong><%= item.num_reviews %>
-                                                Reviews </div>
+                                            <div class="score">  
+                                            <% if(item.num_reviews >= 4) { %>
+                                                <strong>Recomended</strong> <small id="mydiv"></small>
+                                                <% } else if( item.num_reviews  >= 3){ %>
+                                                <strong> Verry Good</strong> <small id="mydiv"></small>
+                                                <% } else if( item.num_reviews  >= 2){ %>
+                                                <strong>Good</strong> <small id="mydiv"></small>
+                                                <% } else { %>
+                                                <strong>Not Recomended</strong> <small id="mydiv"></small>
+                                           <% } %>
+                                            <%= item.num_reviews %> Reviews </div>
                                             <span><%= item.rating %></span>
                                         </div>
                                     </div>
@@ -44,7 +53,7 @@
                                         <li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
                                     </ul>
                                     <div class="geodir-category-footer fl-wrap">
-                                        <div class="geodir-category-price">Awg/Night
+                                        <div class="geodir-category-price">Price Level
                                             <span><%= item.price %></span></div>
                                         <div class="geodir-opt-list">
                                             <a href="#0" class="map-item"><i class="fal fa-map-marker-alt"></i><span
