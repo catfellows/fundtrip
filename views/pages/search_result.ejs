@@ -125,14 +125,19 @@
                         </div>
                         <% }); %>
 
-                        <% data.retuarant.forEach( item => { %>
+
+
+
+                        <% data.hotel.forEach( item => { %>
+
                             <form action="/collection" method="post" style="display: inline;">
                                 <div class="listing-item" data-type="Hotels">
                                     <article class="geodir-category-listing fl-wrap">
                                         <div class="geodir-category-img">
-                                            <a ><img src="<%= item.image %>" alt=""></a>
-                                            <input type="hidden" name="image" id="" value="<%= item.image %>">
-                                            <div class="geodir-category-opt">
+
+                                            <a href="listing-single.html"><img src="<%= item.photo %>" alt=""></a>
+                                            <input type="hidden" name="image" id="" value="<%= item.photo %>">
+                    <div class="geodir-category-opt">
                                                 <div class="listing-rating card-popup-rainingvis"
                                                     data-starrating2="<%= item.rating %>">
                                                 </div>
@@ -153,19 +158,23 @@
                                                     <input type="hidden" name="name" id="" value="<%= item.name %>">
                                                     <div class="geodir-category-location fl-wrap"><a href="#0"
                                                             class="map-item"><i class="fas fa-map-marker-alt"></i>
-                                                            <%= item.address %></a></div>
+
+                                                            <%= item.locationName %></a></div>
                                                 </div>
-                                                <input type="hidden" name="address" id="" value="<%= item.address %>">
+                                                <input type="hidden" name="address" id="" value="<%= item.locationName %>">
                                             </div>
-                                            <p><%= item.description.substring(0, 150) %></p>
-                                            <input type="hidden" name="description" id="" value="<%= item.description %>">
+                                            <!-- <p><%= item.ranking.substring(0, 150) %></p>
+                                            <input type="hidden" name="description" id="" value="<%= item.ranking %>">
+
                                             <ul class="facilities-list fl-wrap">
                                                 <li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
                                                 <li><i class="fal fa-parking"></i><span>Parking</span></li>
                                                 <li><i class="fal fa-smoking-ban"></i><span>Non-smoking Rooms</span>
                                                 </li>
-                                                <li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
-                                            </ul>
+
+                                                <li><i class="fal fa-utensils"></i><span> Hotel</span></li>
+                                            </ul> -->
+
                                             <div class="geodir-category-footer fl-wrap">
                                                 <div class="geodir-category-price">Awg/Night
                                                     <span><%= item.price %></span></div>
