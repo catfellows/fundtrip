@@ -28,11 +28,11 @@ app.get('/flight', getFlightPrice);
 app.post('/result', getResults);
 
 
-app.get('/single',singleRestaurant);
-app.post('/collection',saveToFav);
-app.get('/collection',collection);
+app.get('/single', singleRestaurant);
+app.post('/collection', saveToFav);
+app.get('/collection', collection);
 app.post('/testimonial', addReview)
-    // app.get('/',selectReview)
+// app.get('/',selectReview)
 
 app.get('/hotels', handelHotels);
 
@@ -41,40 +41,40 @@ app.get('/*', handleError);
 
 function handelHotels(req, res) {
     let qs = {
-       
-            offset: '0',
-            pricesmax: '100',
-            currency: 'USD',
-            limit: '5',
-            order: 'asc',
-            lang: 'en_US',
-            sort: 'price',
-            location_id: '293986',
-            adults: '1',
-            checkin: '2020-12-15',
-            rooms: '1',
-            nights: '10'
-        
+
+        offset: '0',
+        pricesmax: '100',
+        currency: 'USD',
+        limit: '5',
+        order: 'asc',
+        lang: 'en_US',
+        sort: 'price',
+        location_id: '293986',
+        adults: '1',
+        checkin: '2020-12-15',
+        rooms: '1',
+        nights: '10'
+
     };
     let url = `https://tripadvisor1.p.rapidapi.com/locations/search`;
-  return  superagent.get(encodeURI(url))
+    return superagent.get(encodeURI(url))
         .query(qs)
         .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
         .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
         .set('useQueryString', true)
         .then(hotelResult => {
-       //    return (locationReesult.body.data[0].result_object);
-           
-        //    return hotelResult.body.data.map((e) => {
-        //     return new Hotel(e);})
+            //    return (locationReesult.body.data[0].result_object);
 
-res.send(hotelResult.body.data)
+            //    return hotelResult.body.data.map((e) => {
+            //     return new Hotel(e);})
+
+            res.send(hotelResult.body.data)
 
         });
 }
 
 
-function aboutUs(req,res){
+function aboutUs(req, res) {
     res.render('pages/about-us')
 }
 
@@ -110,17 +110,19 @@ function handelLocation(locationName) {
         .then(locationReesult => {
 
             return new Location(locationReesult.body.data[0].result_object)
-            
+
 
         });
 }
 
 function handleHome(req, res) {
 
-    (async() => {
+    (async () => {
         try {
             let review = await selectReview()
-            res.render('./index', { list: review });
+            res.render('./index', {
+                list: review
+            });
         } catch (error) {
             console.error(error);
         }
@@ -135,14 +137,21 @@ function handleHome(req, res) {
 function getResults(req, res) {
     let location_id = req.body.place_name;
     let budget = req.body.budget;
-    (async() => {
+    (async () => {
         try {
             let location = await handelLocation(location_id);
             let code = await getcode(req.body.place_name);
             let flight = await getFlightPrice(code);
             let dailyBudget = (budget - flight) / 10;
+            res.send(flight);
             let restuarant = await getRestaurant(location.location_id, '10951');
-            res.render('./pages/search_result', { data: { location, restuarant, flight } });
+            // res.render('./pages/search_result', {
+            //     data: {
+            //         location,
+            //         restuarant,
+            //         flight
+            //     }
+            // });
         } catch (error) {
             console.error(error);
         }
@@ -242,20 +251,24 @@ function getRestaurant(location_id, prices_restaurants) {
 function singleRestaurant(req, res) {
 
 
-  let SQL = "SELECT * FROM favorite  WHERE id=$1 ";
-  let value = [req.query.id];
-  client.query(SQL, value).then(data =>{
-    // res.send(data)
-    res.render('./pages/single_restaurant', {result:data.rows[0]});
+    let SQL = "SELECT * FROM favorite  WHERE id=$1 ";
+    let value = [req.query.id];
+    client.query(SQL, value).then(data => {
+        // res.send(data)
+        res.render('./pages/single_restaurant', {
+            result: data.rows[0]
+        });
 
-  })
- 
+    })
+
 }
 
 function collection(req, res) {
     let SQL = 'select * from favorite;';
     client.query(SQL).then(results => {
-        res.render('./pages/collection', { restuarant: results.rows });
+        res.render('./pages/collection', {
+            restuarant: results.rows
+        });
 
     })
 }
@@ -351,15 +364,17 @@ function Hotel(data) {
 }
 // Flight
 function Flight(data) {
-    this.type = 'flight'
-    this.departure = 'AMM',
-        this.arrival = data.itineraries.segments.arrival.iataCode || '',
-        this.date = data.itineraries.segments.departure.at.subString(0, 11) || '',
-        this.base = data.price.base || '';
+    this.type = 'flight';
+    this.departure = 'AMM';
+    this.arrival = data.itineraries[0].segments[0].arrival.iataCode || '';
+    this.numberOfBookableSeats = data.numberOfBookableSeats || 0;
+    this.date = data.itineraries[0].segments[0].departure.at.subString(0, 11) || '';
+    this.base = data.price.base || '';
     this.total = data.price.total || '';
     this.currency = data.price.currency || '';
     this.grandTotal = data.price.grandTotal || '';
 }
+
 client.connect().then(() => {
     app.listen(PORT, () => {
         console.log(`listening to port : ${PORT}`);

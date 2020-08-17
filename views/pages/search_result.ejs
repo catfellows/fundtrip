@@ -9,7 +9,6 @@
             <div class="map-close"><i class="fas fa-times"></i></div>
 
         </div>
-        <!--col-list-wrap -->
         <div class="col-list-wrap left-list">
             <div class="mobile-list-controls fl-wrap">
                 <div class="container">
@@ -22,7 +21,6 @@
                     <div class="list-main-wrap-title fl-wrap">
                         <h2>Results For : <span><%= data.location.name %></span></h2>
                     </div>
-                    <!-- list-main-wrap-opt-->
                     <div class="list-main-wrap-opt fl-wrap">
                         <div class="price-opt">
                             <span class="price-opt-title">Sort results by:</span>
@@ -35,7 +33,6 @@
                                 </select>
                             </div>
                         </div>
-                        <!-- price-opt-->
                         <div class="grid-opt">
                             <ul>
                                 <li><span class="two-col-grid act-grid-opt"><i class="fas fa-th-large"></i></span></li>
@@ -43,7 +40,6 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- listing-item-container -->
                     <div class="listing-item-container init-grid-items fl-wrap">
                         <% data.restuarant.forEach( item => { %>
                     <form action="/collection" method="post" style="display: inline;">
