@@ -22,6 +22,7 @@ app.use(express.urlencoded({
 
 
 app.get('/', handleHome);
+app.get('/about', aboutUs)
 app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result', getResults);
@@ -41,7 +42,6 @@ app.get('/*', handleError);
 function handelHotels(id) {
 
     let qs = {
-
         offset: '0',
         pricesmax: '1000',
         currency: 'USD',
@@ -58,11 +58,13 @@ function handelHotels(id) {
     };
 
     let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
+
   return  superagent.get(encodeURI(url))
         .query(qs)
         .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
         .set('x-rapidapi-key', `17b4c35337mshcca2a4e363e9166p1b9820jsnfac672d7cc8d`)
         .set('useQueryString', true)
+
         .then(hotelresults => {
         return  hotelresults.body.data.map(e => {
                 return new Hotel(e);
@@ -70,10 +72,15 @@ function handelHotels(id) {
         // res.send(hotelresults.body)
         // res.send(hotel)
 
+
         });
 }
 
 
+
+function aboutUs(req,res){
+    res.render('pages/about-us')
+}
 
 
 function handelLocationresults(req, res) {
@@ -108,6 +115,7 @@ function handelLocation(locationName) {
         .then(locationReesult => {
 
             return new Location(locationReesult.body.data[0].result_object)
+            
 
         });
 }
@@ -118,7 +126,6 @@ function handleHome(req, res) {
         try {
             let review = await selectReview()
             res.render('./index', { list: review });
-            // res.send(review)
         } catch (error) {
             console.error(error);
         }
@@ -139,10 +146,12 @@ function getResults(req, res) {
             let code = await getcode(req.body.place_name);
             let flight = await getFlightPrice(code);
             let dailyBudget = (budget - flight) / 10;
+
             let retuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);
             console.log(hotel)
             res.render('./pages/search_result', { data: { location, retuarant, flight ,hotel} });
+
         } catch (error) {
             console.error(error);
         }
