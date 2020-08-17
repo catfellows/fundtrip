@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const superagent = require('superagent');
+const methodOverride = require('method-override')
 const PORT = process.env.PORT || 3000;
 
 const pg = require('pg');
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({
     extended: true
 }));
+app.use(methodOverride('_method'))
 
 
 app.get('/', handleHome);
@@ -34,6 +36,7 @@ app.get('/collection', collection);
 app.post('/testimonial', addReview);
 app.post('/restRev', addRestRev);
 // app.get('/',selectReview)
+app.delete('/delete',handelDelete)
 
 app.get('/hotels', handelHotels);
 
@@ -366,8 +369,26 @@ function selectRestReview(id) {
 
 }
 
-// ---------------------------------- Constructors
 
+function handelDelete(req, res) {
+
+    let SQL = 'delete from favorite where id=$1;';
+    let id = [req.query.id];
+    console.log(id)
+  
+    return client.query(SQL, id)
+      .then(() => {
+  
+        res.redirect(`/collection`)
+      })
+      .catch(error => {
+        close.log(error);
+        res.render('pages/error');
+      })
+  }
+
+
+// Constructors
 // Location
 function Location(data) {
     this.name = data.name;
