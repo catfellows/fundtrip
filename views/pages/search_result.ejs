@@ -107,6 +107,69 @@
                             </article>
                         </div>
                         <% }); %>
+
+                        <% data.retuarant.forEach( item => { %>
+                            <form action="/collection" method="post" style="display: inline;">
+                                <div class="listing-item" data-type="Hotels">
+                                    <article class="geodir-category-listing fl-wrap">
+                                        <div class="geodir-category-img">
+                                            <a ><img src="<%= item.image %>" alt=""></a>
+                                            <input type="hidden" name="image" id="" value="<%= item.image %>">
+                                            <div class="geodir-category-opt">
+                                                <div class="listing-rating card-popup-rainingvis"
+                                                    data-starrating2="<%= item.rating %>">
+                                                </div>
+                                                <input type="hidden" name="rating" id="" value="<%= item.rating %>">
+                                                <div class="rate-class-name">
+                                                    <div class="score"><strong>Very Good</strong><%= item.num_reviews %>
+                                                        Reviews </div>
+                                                    <span><%= item.rating %></span>
+                                                </div>
+                                                <input type="hidden" name="num_reviews" id="" value="<%= item.num_reviews %>">
+                                            </div>
+                                        </div>
+                                        <div class="geodir-category-content fl-wrap">
+                                            <div class="geodir-category-content-title fl-wrap">
+                                                <div class="geodir-category-content-title-item">
+                                                    <h3 class="title-sin_map"><a href="listing-single.html"><%= item.name %></a>
+                                                    </h3>
+                                                    <input type="hidden" name="name" id="" value="<%= item.name %>">
+                                                    <div class="geodir-category-location fl-wrap"><a href="#0"
+                                                            class="map-item"><i class="fas fa-map-marker-alt"></i>
+                                                            <%= item.address %></a></div>
+                                                </div>
+                                                <input type="hidden" name="address" id="" value="<%= item.address %>">
+                                            </div>
+                                            <p><%= item.description.substring(0, 150) %></p>
+                                            <input type="hidden" name="description" id="" value="<%= item.description %>">
+                                            <ul class="facilities-list fl-wrap">
+                                                <li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
+                                                <li><i class="fal fa-parking"></i><span>Parking</span></li>
+                                                <li><i class="fal fa-smoking-ban"></i><span>Non-smoking Rooms</span>
+                                                </li>
+                                                <li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
+                                            </ul>
+                                            <div class="geodir-category-footer fl-wrap">
+                                                <div class="geodir-category-price">Awg/Night
+                                                    <span><%= item.price %></span></div>
+                                                    <input type="hidden" name="price" id="" value="<%= item.price %>">
+                                                <div class="geodir-opt-list">
+                                                    <a href="#0" class="map-item"><i class="fal fa-map-marker-alt"></i><span
+                                                            class="geodir-opt-tooltip">On the map
+                                                            <strong>1</strong></span></a>
+                                                                <button type="submit" style="border: 0ch; background: transparent; ">
+                                                                    <a class="geodir-js-favorite"><i class="fal fa-heart"></i><span
+                                                                        class="geodir-opt-tooltip">Save</span></a>
+                                                                </button>
+                                                           </form>
+                                                    <a href="#" class="geodir-js-booking"><i class="fal fa-exchange"></i><span
+                                                            class="geodir-opt-tooltip">Find Directions</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                                <% }); %>
                     </div>
                 </div>
             </div>
