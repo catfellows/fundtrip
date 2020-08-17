@@ -22,10 +22,7 @@ app.use(express.urlencoded({
 
 
 app.get('/', handleHome);
-// app.get('/', aboutUs)
-// function aboutUs(req,res){
-//     res.render('pages/about-us')
-// }
+app.get('/about', aboutUs)
 app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result', getResults);
@@ -76,6 +73,10 @@ res.send(hotelResult.body.data)
         });
 }
 
+
+function aboutUs(req,res){
+    res.render('pages/about-us')
+}
 
 function handelLocationresults(req, res) {
     let locationName = req.body.place_name;
