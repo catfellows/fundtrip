@@ -92,7 +92,7 @@
     .col-lg-9 {
         width: 100%;
         float: none;
-        padding: 0;
+        padding: 0px 15px;
         margin: 0;
     }
 

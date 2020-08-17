@@ -48,21 +48,16 @@
                                     <ul class="facilities-list fl-wrap">
                                         <li><i class="fal fa-wifi"></i><span>Free WiFi</span></li>
                                         <li><i class="fal fa-parking"></i><span>Parking</span></li>
-                                        <li><i class="fal fa-smoking-ban"></i><span>Non-smoking Rooms</span>
-                                        </li>
-                                        <li><i class="fal fa-utensils"></i><span> Restaurant</span></li>
-                                    </ul>
+                                   </ul>
                                     <div class="geodir-category-footer fl-wrap">
                                         <div class="geodir-category-price">Price Level
                                             <span><%= item.price %></span></div>
                                         <div class="geodir-opt-list">
-                                            <a href="#0" class="map-item"><i class="fal fa-map-marker-alt"></i><span
+                                            <a href="https://www.google.com/maps/@<%= item.latitude %>,<%= item.longitude %>,15z" target="_blank" class="map-item"><i class="fal fa-map-marker-alt"></i><span
                                                     class="geodir-opt-tooltip">On the map
                                                     <strong>1</strong></span></a>
-                                            <a href="#" class="geodir-js-favorite"><i class="fal fa-heart"></i><span
-                                                    class="geodir-opt-tooltip">Save</span></a>
-                                            <a href="#" class="geodir-js-booking"><i class="fal fa-exchange"></i><span
-                                                    class="geodir-opt-tooltip">Find Directions</span></a>
+                                            <a href="#" class="geodir-js-favorite"><i class="fal fa-trash"></i><span
+                                                    class="geodir-opt-tooltip">Delete</span></a>
                                         </div>
                                     </div>
                                 </div>
