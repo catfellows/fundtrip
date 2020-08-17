@@ -39,37 +39,40 @@ app.get('/hotels', handelHotels);
 
 app.get('/*', handleError);
 
-function handelHotels(req, res) {
+function handelHotels(id) {
+
     let qs = {
 
         offset: '0',
-        pricesmax: '100',
+
+        pricesmax: '1000',
         currency: 'USD',
         limit: '5',
         order: 'asc',
         lang: 'en_US',
         sort: 'price',
-        location_id: '293986',
+
+        location_id: id,
         adults: '1',
         checkin: '2020-12-15',
         rooms: '1',
         nights: '10'
 
     };
-    let url = `https://tripadvisor1.p.rapidapi.com/locations/search`;
-    return superagent.get(encodeURI(url))
+
+    let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
+
+  return superagent.get(encodeURI(url))
         .query(qs)
         .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
-        .set('x-rapidapi-key', `dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361`)
+        .set('x-rapidapi-key', `17b4c35337mshcca2a4e363e9166p1b9820jsnfac672d7cc8d`)
         .set('useQueryString', true)
-        .then(hotelResult => {
-            //    return (locationReesult.body.data[0].result_object);
-
-            //    return hotelResult.body.data.map((e) => {
-            //     return new Hotel(e);})
-
-            res.send(hotelResult.body.data)
-
+        .then(hotelresults => {
+            return hotelresults.body.data.map(e => {
+                    return new Hotel(e);
+                })
+                // res.send(hotelresults.body)
+                // res.send(hotel)
         });
 }
 
@@ -145,13 +148,10 @@ function getResults(req, res) {
             let dailyBudget = (budget - flight) / 10;
             res.send(flight);
             let restuarant = await getRestaurant(location.location_id, '10951');
-            // res.render('./pages/search_result', {
-            //     data: {
-            //         location,
-            //         restuarant,
-            //         flight
-            //     }
-            // });
+            let hotel = await handelHotels(location.location_id);
+            console.log(hotel)
+            res.render('./pages/search_result', { data: { location, restuarant, flight, hotel } });
+
         } catch (error) {
             console.error(error);
         }
@@ -255,12 +255,9 @@ function singleRestaurant(req, res) {
     let value = [req.query.id];
     client.query(SQL, value).then(data => {
         // res.send(data)
-        res.render('./pages/single_restaurant', {
-            result: data.rows[0]
-        });
+        res.render('./pages/single_restaurant', { result: data.rows[0] });
 
     })
-
 }
 
 function collection(req, res) {
@@ -302,9 +299,45 @@ function addReview(req, res) {
 
 }
 
+function addRestRev(req, res) {
+    let SQL = 'INSERT INTO reviewRest (score, email, name, review ,idRest) VALUES ($1,$2,$3,$4,$5);'
+    let $1 = req.body.rgcl;
+    let $2 = req.body.email;
+    let $3 = req.body.name;
+    let $4 = req.body.review;
+    let $5 = req.query.id;
+
+    let values = [$1, $2, $3, $4, $5];
+
+    console.log(req.body)
+
+    return client.query(SQL, values)
+        .then(() => {
+
+            res.redirect('back')
+        })
+        .catch(error => {
+            close.log(error);
+
+        })
+}
+
+
 function selectReview() {
 
     let SQL = 'select * from review;'
+
+    return client.query(SQL)
+        .then((result) => {
+            return (result.rows)
+
+        })
+
+}
+
+function selectRestReview() {
+
+    let SQL = 'select * from reviewRest;'
 
     return client.query(SQL)
         .then((result) => {
@@ -351,6 +384,7 @@ function Restaurant(data) {
 // Hotels
 function Hotel(data) {
     this.location = data.location_id;
+    this.name = data.name
     this.locationName = data.location_string;
     this.latitude = data.latitude || '';
     this.longitude = data.longitude || '';
@@ -360,7 +394,7 @@ function Hotel(data) {
     this.price = data.price || '';
     this.price_level = data.price_level || '';
     this.subcategory_type_label = data.subcategory_type_label || '';
-    this.photo = data.photo.images.large.url || '';
+    this.photo = data && data.photo && data.photo.images && data.photo.images.original.url || 'https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png';
 }
 // Flight
 function Flight(data) {
