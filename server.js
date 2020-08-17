@@ -73,10 +73,10 @@ function handelHotels(id) {
         .set('useQueryString', true)
         .then(hotelresults => {
             return hotelresults.body.data.map(e => {
-                return new Hotel(e);
-            })
-            // res.send(hotelresults.body)
-            // res.send(hotel)
+                    return new Hotel(e);
+                })
+                // res.send(hotelresults.body)
+                // res.send(hotel)
         });
 }
 
@@ -124,7 +124,7 @@ function handelLocation(locationName) {
 
 function handleHome(req, res) {
 
-    (async () => {
+    (async() => {
         try {
             let review = await selectReview()
             res.render('./index', {
@@ -144,7 +144,7 @@ function handleHome(req, res) {
 function getResults(req, res) {
     let location_id = req.body.place_name;
     let budget = req.body.budget;
-    (async () => {
+    (async() => {
         try {
             let location = await handelLocation(location_id);
             let code = await getcode(req.body.place_name);
@@ -261,16 +261,30 @@ function getRestaurant(location_id, prices_restaurants) {
 
 function singleRestaurant(req, res) {
 
-
+    let id = req.query.id;
     let SQL = "SELECT * FROM favorite  WHERE id=$1 ";
-    let value = [req.query.id];
-    client.query(SQL, value).then(data => {
-        // res.send(data)
-        res.render('./pages/single_restaurant', {
-            result: data.rows[0]
-        });
 
-    })
+    (async() => {
+        try {
+
+            let revData = await selectRestReview(id);
+            let value = [id];
+            client.query(SQL, value).then(data => {
+                //res.send(revData)
+                res.render('./pages/single_restaurant', {
+                    result: data.rows[0],
+                    reviewData: revData
+                });
+
+            });
+
+
+        } catch (error) {
+            console.error(error);
+        }
+    })();
+
+
 }
 
 function collection(req, res) {
@@ -344,10 +358,9 @@ function selectReview() {
 
 }
 
-function selectRestReview() {
+function selectRestReview(id) {
 
-    let SQL = 'select * from reviewRest;'
-
+    let SQL = `select * from reviewRest where idrest = ${id};`
     return client.query(SQL)
         .then((result) => {
             return (result.rows)
@@ -355,6 +368,7 @@ function selectRestReview() {
         })
 
 }
+
 
 function handelDelete(req, res) {
 
@@ -375,7 +389,6 @@ function handelDelete(req, res) {
 
 
 // Constructors
-
 // Location
 function Location(data) {
     this.name = data.name;
