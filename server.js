@@ -149,7 +149,7 @@ function getResults(req, res) {
             let dailyBudget = (budget - flight) / 10;
             let restuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);
-            console.log(hotel)
+            console.log(flight)
             res.render('./pages/search_result', {
                 data: {
                     location,
