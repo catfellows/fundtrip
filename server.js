@@ -31,6 +31,8 @@ app.post('/result', getResults);
 
 
 app.get('/single', singleRestaurant);
+app.get('/contact', contactUs);
+
 app.post('/collection', saveToFav);
 app.get('/collection', collection);
 app.post('/testimonial', addReview);
@@ -82,7 +84,11 @@ function handelHotels(id) {
 
 
 function aboutUs(req, res) {
-    res.render('pages/about-us')
+    res.render('pages/about-us');
+}
+
+function contactUs(req, res) {
+    res.render('pages/contact');
 }
 
 function handelLocationresults(req, res) {
@@ -148,7 +154,7 @@ function getResults(req, res) {
         try {
             let location = await handelLocation(location_id);
             let code = await getcode(req.body.place_name);
-            let flight = await getFlightPrice(code);
+            let flight = await getFlightPrice(code) || [];
             let dailyBudget = (budget - flight) / 10;
             let restuarant = await getRestaurant(location.location_id, '10951');
             let hotel = await handelHotels(location.location_id);

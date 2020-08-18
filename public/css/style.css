@@ -1641,8 +1641,20 @@ nav li ul a:after {
 	margin-right: 8px;
 }
 
+.hotels-list {
+	height: auto!important;
+}
+.hotels-list .geodir-category-content-title {
+	border: none!important;
+}
+
+.hotels-list .geodir-category-footer {
+	border: none;
+	
+}
+
 .listing-item:nth-child(even) {
-	padding: 0 0 0 8px;
+	padding: 0 8px 0 0px;
 }
 
 .collection .listing-item:nth-child(even) {
@@ -3828,7 +3840,7 @@ article.post-article .list-single-main-item {
 }
 
 .reviews-comments-wrap {
-	display: inline-table;
+	/* display: inline-table; */
 	margin-top: 30px;
 }
 
@@ -6490,4 +6502,7 @@ article.post-article .list-single-main-item {
 	margin: 0 auto;
 	float: none;
 	width: 155px;
+}
+.about-wrap p {
+    font-size: 16px;
 }
