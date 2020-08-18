@@ -19,6 +19,7 @@
     .three-columns-grid .listing-item.has_one_column .geodir-category-img {
         top: 12px;
     }
+    
 }
 
 @media only screen and (max-width: 1064px) {
@@ -458,6 +459,10 @@
         float: left;
         margin-bottom: 30px;
     }
+
+    .collection .listing-item {
+        width: calc(100% /2 - 8px);
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -620,6 +625,10 @@
         position: absolute;
         right: 0;
         top: 150px;
+    }
+
+    .collection .listing-item {
+        width: 100%;
     }
 }
 
@@ -1050,6 +1059,8 @@
     .subfooter-nav ul li:last-child {
         margin-right: 0;
     }
+
+   
 }
 
 @media only screen and (max-width: 420px) {
