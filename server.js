@@ -72,8 +72,8 @@ function handelHotels(id, dailyBudget, adult, day) {
 
     return superagent.get(encodeURI(url))
         .query(qs)
-        .set('x-rapidapi-hos', `tripadvisor1.p.rapidapi.com`)
-        .set('x-rapidapi-key', `17b4c35337mshcca2a4e363e9166p1b9820jsnfac672d7cc8d`)
+        .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
+        .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
         .set('useQueryString', true)
         .then(hotelresults => {
             return hotelresults.body.data.map(e => {
@@ -199,11 +199,11 @@ function getResults(req, res) {
         }
     })();
 
-      let restaurant = getRestaurant(location_id, '10951').then( returnedData => {
-        return (returnedData);
-      }).catch((err) => {
-        console.log(err.message);
-      });
+    //   let restaurant = getRestaurant(location_id, '10951').then( returnedData => {
+    //     return (returnedData);
+    //   }).catch((err) => {
+    //     console.log(err.message);
+    //   });
 }
 
 function saveToFav(req, res) {
