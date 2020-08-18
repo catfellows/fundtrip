@@ -28,6 +28,8 @@ app.get('/about', aboutUs)
 app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result', getResults);
+app.get("/contactUs",contact);
+app.get('/contact-us', saveToMess);
 
 
 app.get('/single', singleRestaurant);
@@ -82,6 +84,9 @@ function handelHotels(id) {
         });
 }
 
+function contact(req, res) {
+    res.render('pages/contact')
+}
 
 function aboutUs(req, res) {
     res.render('pages/about-us');
@@ -89,6 +94,15 @@ function aboutUs(req, res) {
 
 function contactUs(req, res) {
     res.render('pages/contact');
+}
+
+function saveToMess(req, res) {
+    let data = req.body;
+    let SQL = 'INSERT INTO favorite(fname, lname, message, subject ) VALUES ($1,$2,$#,$4)';
+    let array = [data.fname, data.lname, data.message, data.subject];
+    client.query(SQL, array).then(response => {
+        res.redirect('back')
+    });
 }
 
 function handelLocationresults(req, res) {
@@ -220,6 +234,7 @@ function getFlightPrice(req) {
             destinationLocationCode: req,
             departureDate: '2021-02-01',
             adults: 1,
+         
         }
 
         //  console.log('getFlightPrice ', req);
