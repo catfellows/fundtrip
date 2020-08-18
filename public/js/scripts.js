@@ -148,35 +148,25 @@ function initFundtrip() {
     location		: datacityw,
   });
 
-
-
-
-  // twitter ------------------
-  if ($('#footer-twiit').length > 0) {
-    var config1 = {
-      'profile': {
-        'screenName': 'envatomarket'
-      },
-      'domId': 'footer-twiit',
-      'maxTweets': 2,
-      'enableLinks': true,
-      'showImages': false
-    };
-    twitterFetcher.fetch(config1);
-  }
   //   Contact form------------------
   $(document).on('submit', '#contactform', function () {
     var a = $(this).attr('action');
     $('#message').slideUp(750, function () {
       $('#message').hide();
       $('#submit').attr('disabled', 'disabled');
-
-      document.getElementById('message').innerHTML = 'Your message has been send ^_^';
-      $('#message').slideDown('slow');
-      $('#submit').removeAttr('disabled');
-      $('#contactform').slideDown('slow');
+      $.post(a, {
+        name: $('#name').val(),
+        email: $('#email').val(),
+        comments: $('#comments').val()
+      }, function (a) {
+        document.getElementById('message').innerHTML = a;
+        $('#message').slideDown('slow');
+        $('#submit').removeAttr('disabled');
+        if (null != a.match('success')) $('#contactform').slideDown('slow');
+      });
     });
     return false;
+
   });
   $(document).on('keyup', '#contactform input, #contactform textarea', function () {
     $('#message').slideUp(1500);
@@ -1114,5 +1104,9 @@ $(document).ready(function () {
   $('#filtre').on('change', function () {
     var elems = this.value == 'all' ? $('.listing-item') : $('.listing-item[data-type="'+this.value+'"]');
     $('.listing-item').not(elems.show()).hide();
+  });
+
+  $('.main-search-button').on('click', function () {
+    $('.loader-wrap').css('display', 'block');
   });
 });

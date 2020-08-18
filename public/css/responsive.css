@@ -87,6 +87,8 @@
     .nav-button-wrap,
     .mob-bg {
         display: block;
+        position: absolute;
+        right: 20px;
     }
 
     .logo-holder {
@@ -641,6 +643,8 @@
 
     .nav-button-wrap {
         margin-left: 10px;
+        position: absolute;
+        right: 20px;
     }
 
     .show-search-button {
