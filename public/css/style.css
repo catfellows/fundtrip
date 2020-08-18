@@ -6499,10 +6499,14 @@ article.post-article .list-single-main-item {
 }
 
 .add-review {
-	margin: 0 auto;
+	margin: 0 auto!important;
 	float: none;
 	width: 155px;
 }
 .about-wrap p {
     font-size: 16px;
+}
+
+.gm-style .place-card, .gm-style .default-card, .gm-style .directions-card{
+    display: none !important;
 }

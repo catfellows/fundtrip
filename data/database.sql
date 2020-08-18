@@ -26,7 +26,7 @@ create table subscribe (
 create table messages (
     id serial PRIMARY KEY,
     fname VARCHAR(255),
-    lname VARCHAR(255),
+    email VARCHAR(255),
     subject VARCHAR(255),
     message VARCHAR(255)
 );

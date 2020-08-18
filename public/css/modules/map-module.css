@@ -249,7 +249,7 @@
 
 .map-view-wrap_item {
 	position: relative;
-	float: left;
+	float: right;
 	width: 350px;
 	border-radius: 6px;
 	background: #fff;

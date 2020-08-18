@@ -28,8 +28,8 @@ app.get('/about', aboutUs)
 app.get('/flight', getFlightPrice);
 //app.post('/result', getResults);
 app.post('/result', getResults);
-app.get("/contactUs",contact);
-app.get('/contact-us', saveToMess);
+app.get("/contactUs", contact);
+app.post('/contact-us', saveToMess);
 
 
 app.get('/single', singleRestaurant);
@@ -40,31 +40,31 @@ app.get('/collection', collection);
 app.post('/testimonial', addReview);
 app.post('/restRev', addRestRev);
 // app.get('/',selectReview)
-app.delete('/delete',handelDelete)
+app.delete('/delete', handelDelete)
 
 app.get('/hotels', handelHotels);
 
 
 app.get('/*', handleError);
 
-function handelHotels(id) {
+function handelHotels(id, dailyBudget, adult, day) {
 
     let qs = {
 
         offset: '0',
 
-        pricesmax: '1000',
+        pricesmax: dailyBudget,
         currency: 'USD',
-        limit: '5',
+        limit: '10',
         order: 'asc',
         lang: 'en_US',
         sort: 'price',
 
         location_id: id,
-        adults: '1',
+        adults: adult,
         checkin: '2020-12-15',
         rooms: '1',
-        nights: '10'
+        nights: day
 
     };
 
@@ -77,10 +77,10 @@ function handelHotels(id) {
         .set('useQueryString', true)
         .then(hotelresults => {
             return hotelresults.body.data.map(e => {
-                    return new Hotel(e);
-                })
-                // res.send(hotelresults.body)
-                // res.send(hotel)
+                return new Hotel(e);
+            })
+            // res.send(hotelresults.body)
+            // res.send(hotel)
         });
 }
 
@@ -98,10 +98,10 @@ function contactUs(req, res) {
 
 function saveToMess(req, res) {
     let data = req.body;
-    let SQL = 'INSERT INTO favorite(fname, lname, message, subject ) VALUES ($1,$2,$#,$4)';
-    let array = [data.fname, data.lname, data.message, data.subject];
+    let SQL = 'INSERT INTO messages(fname, email, message, subject ) VALUES ($1,$2,$#,$4)';
+    let array = [data.fname, data.email, data.message, data.subject];
     client.query(SQL, array).then(response => {
-        res.redirect('back')
+        res.redirect('back');
     });
 }
 
@@ -144,7 +144,7 @@ function handelLocation(locationName) {
 
 function handleHome(req, res) {
 
-    (async() => {
+    (async () => {
         try {
             let review = await selectReview()
             res.render('./index', {
@@ -161,18 +161,29 @@ function handleHome(req, res) {
     //   });
 }
 
+function calc (date1, date2) {
+    console.log(date1, date2)
+    let dt1 = new Date(date1);
+    let dt2 = new Date(date2);
+    return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+}
+
 function getResults(req, res) {
     let location_id = req.body.place_name;
     let budget = req.body.budget;
+    let adult = req.body.adults;
+    let data = req.body.travel_date.split('-');
+    let day = calc(data[0], data[1]);  
+
     (async() => {
         try {
             let location = await handelLocation(location_id);
             let code = await getcode(req.body.place_name);
-            let flight = await getFlightPrice(code) || [];
-            let dailyBudget = (budget - flight) / 10;
-            let restuarant = await getRestaurant(location.location_id, '10951');
-            let hotel = await handelHotels(location.location_id);
-            console.log(hotel)
+            let flight = await getFlightPrice(code, adult) || [];
+            let dailyBudget = (Number(budget) - Number( flight && flight[0] && flight[0].grandTotal || 0)) / day;
+            let restuarant = await getRestaurant(location.location_id, dailyBudget);
+            let hotel = await handelHotels(location.location_id, dailyBudget, adult, day);
+            console.log(dailyBudget)
             // res.send(hotel)
             res.render('./pages/search_result', {
                 data: {
@@ -188,13 +199,11 @@ function getResults(req, res) {
         }
     })();
 
-    //   let restaurant = getRestaurant(location_id, '10951').then( returnedData => {
-    //     return (returnedData);
-    //   }).catch((err) => {
-    //     console.log(err.message);
-    //   });
-
-    //   res.send(result);
+      let restaurant = getRestaurant(location_id, '10951').then( returnedData => {
+        return (returnedData);
+      }).catch((err) => {
+        console.log(err.message);
+      });
 }
 
 function saveToFav(req, res) {
@@ -227,14 +236,14 @@ function getcode(req) {
         });
 }
 
-function getFlightPrice(req) {
+function getFlightPrice(req, adult) {
     try {
         let qs = {
             originLocationCode: 'BKK',
             destinationLocationCode: req,
             departureDate: '2021-02-01',
-            adults: 1,
-         
+            adults: adult,
+
         }
 
         //  console.log('getFlightPrice ', req);
@@ -257,10 +266,22 @@ function getFlightPrice(req) {
 
 
 function getRestaurant(location_id, prices_restaurants) {
+
+    let price_level = '';
+
+    if (prices_restaurants <= 100) {
+        price_level = '10951';
+    } else if (prices_restaurants <= 500) {
+        price_level = '10953';
+    } else {
+        price_level = '10955';
+    }
+
+    console.log('Pricee Level: ', price_level);
     let qs = {
         lunit: 'km',
         limit: '10',
-        prices_restaurants: prices_restaurants,
+        prices_restaurants: price_level,
         currency: 'USD',
         lang: 'en_US',
         location_id: location_id
@@ -286,7 +307,7 @@ function singleRestaurant(req, res) {
     let id = req.query.id;
     let SQL = "SELECT * FROM favorite  WHERE id=$1 ";
 
-    (async() => {
+    (async () => {
         try {
             let revData = await selectRestReview(id);
             let value = [id];
@@ -387,17 +408,17 @@ function handelDelete(req, res) {
     let SQL = 'delete from favorite where id=$1;';
     let id = [req.query.id];
     console.log(id)
-  
+
     return client.query(SQL, id)
-      .then(() => {
-  
-        res.redirect(`/collection`)
-      })
-      .catch(error => {
-        close.log(error);
-        res.render('pages/error');
-      })
-  }
+        .then(() => {
+
+            res.redirect(`/collection`)
+        })
+        .catch(error => {
+            close.log(error);
+            res.render('pages/error');
+        })
+}
 
 
 // Constructors
@@ -450,10 +471,10 @@ function Flight(data) {
     this.type = 'flight';
     this.departure = 'AMM';
     // this.arrival = data.itineraries[0].segments[0].arrival.iataCode || '';
-    this.arrival = data  && data.itineraries[0] && data.itineraries[0].segments[0] && data.itineraries[0].segments[0].arrival&& data.itineraries[0].segments[0].arrival.iataCode || '';
+    this.arrival = data && data.itineraries[0] && data.itineraries[0].segments[0] && data.itineraries[0].segments[0].arrival && data.itineraries[0].segments[0].arrival.iataCode || '';
     this.numberOfBookableSeats = data.numberOfBookableSeats || 0;
     // this.date = data.itineraries[0].segments[0].departure.at.subString(0, 11) || '';
-    this.date = data  && data.itineraries[0] && data.itineraries[0].segments[0] && data.itineraries[0].segments[0].departure && data.itineraries[0].segments[0].departure.at  || '';
+    this.date = data && data.itineraries[0] && data.itineraries[0].segments[0] && data.itineraries[0].segments[0].departure && data.itineraries[0].segments[0].departure.at || '';
     this.base = data.price.base || '';
     this.total = data.price.total || '';
     this.currency = data.price.currency || '';
