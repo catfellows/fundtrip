@@ -109,7 +109,7 @@ function initEasybook() {
     $('.ajax-loader').delay(700).fadeOut(400);
     setTimeout(function () {
       $('.ajax-modal-wrap').animate({
-        opacity: '1'
+        opacity: '0.5'
       }, 300);
     }, 1000);
 
@@ -394,17 +394,17 @@ function initEasybook() {
   $('input[name="header-search"]').on('cancel.daterangepicker', function (ev, picker) {
     $(this).val('');
   });
-  $('input[name="dates"]').daterangepicker({
+  $('input[name="travel_date"]').daterangepicker({
     autoUpdateInput: false,
     parentEl: $('.date-container'),
     locale: {
       cancelLabel: 'Clear'
     }
   });
-  $('input[name="dates"]').on('apply.daterangepicker', function (ev, picker) {
+  $('input[name="travel_date"]').on('apply.daterangepicker', function (ev, picker) {
     $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
   });
-  $('input[name="dates"]').on('cancel.daterangepicker', function (ev, picker) {
+  $('input[name="travel_date"]').on('cancel.daterangepicker', function (ev, picker) {
     $(this).val('');
   });
   $('input[name="bookdates"]').daterangepicker({

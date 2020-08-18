@@ -1,0 +1,95 @@
+.team-box {
+	float: left;
+	width: 25%;
+	position: relative;
+	padding: 10px 4px;
+}
+
+.section-team .team-box {
+	padding: 10px 8px;
+}
+
+.team-photo {
+	margin-bottom: 20px;
+	overflow: hidden;
+	border-radius: 6px;
+}
+
+.section-team .team-photo {
+	margin-bottom: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.team-info {
+	float: left;
+	width: 100%;
+	text-align: left;
+}
+
+.section-team .team-info {
+	border: 1px solid #eee;
+	padding: 25px 30px 70px 30px;
+	border-top: none;
+	position: relative;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	overflow: hidden;
+}
+
+.team-info h3,
+.team-info h4 {
+	float: left;
+	width: 100%;
+	padding-bottom: 10px;
+	font-weight: 600;
+	font-size: 16px;
+}
+
+.team-info h4 {
+	font-size: 11px;
+	color: #666;
+}
+
+.team-social {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	padding-left: 30px;
+}
+
+.team-social ul {
+	float: left;
+}
+
+.team-social li {
+	float: left;
+	height: 50px;
+	line-height: 50px;
+	margin-right: 15px;
+}
+
+.team-social li a:hover {
+	color: #999;
+}
+
+.team-contact_link {
+	float: right;
+	width: 60px;
+	height: 50px;
+	line-height: 50px;
+	color: #fff;
+	border-left: 1px solid rgba(0, 0, 0, 0.21);
+	box-sizing: border-box;
+	text-align: center;
+}
+
+.team-dec {
+	position: absolute;
+	top: 20px;
+	right: 30px;
+	font-size: 26px;
+	z-index: -1;
+	color: #ADC7DD;
+}
