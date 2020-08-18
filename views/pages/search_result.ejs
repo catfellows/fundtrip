@@ -104,7 +104,7 @@
                                             <span><%= item.price %></span></div>
                                         <div class="geodir-opt-list">
                                           
-                                            <a href="#0" class="map-item"><i class="fal fa-map-marker-alt"></i><span
+                                            <a target="_blank" href="https://www.google.com/maps/@<%= item.latitude %>,<%= item.longitude %>,15z" class=""><i class="fal fa-map-marker-alt"></i><span
                                                     class="geodir-opt-tooltip">On the map
                                                     <strong>1</strong></span></a>
                                                         <button type="submit" style="border: 0ch; background: transparent; ">
@@ -112,8 +112,7 @@
                                                                 class="geodir-opt-tooltip">Save</span></a>
                                                         </button>
                                                    </form>
-                                            <a href="#" class="geodir-js-booking"><i class="fal fa-exchange"></i><span
-                                                    class="geodir-opt-tooltip">Find Directions</span></a>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -125,7 +124,7 @@
 
                         <% data.hotel.forEach( item => { %>
                             <!-- <form action="/collection" method="post" style="display: inline;"> -->
-                                <div class="listing-item" data-type="Hotels">
+                                <div class="listing-item hotels-list" data-type="Hotels">
                                     <article class="geodir-category-listing fl-wrap">
                                         <div class="geodir-category-img">
                                             <a href="listing-single.html"><img src="<%= item.photo %>" alt=""></a>
@@ -169,7 +168,7 @@
                                                     <span><%= item.price %></span></div>
                                                     <!-- <input type="hidden" name="price" id="" value="<%= item.price %>"> -->
                                                 <div class="geodir-opt-list">
-                                                    <a href="#0" class="map-item"><i class="fal fa-map-marker-alt"></i><span
+                                                    <a target="_blank" href="https://www.google.com/maps/@<%= item.latitude %>,<%= item.longitude %>,15z" class=""><i class="fal fa-map-marker-alt"></i><span
                                                             class="geodir-opt-tooltip">On the map
                                                             <strong>1</strong></span></a>
                                                                 <!-- <button type="submit" style="border: 0ch; background: transparent; ">
@@ -177,8 +176,6 @@
                                                                         class="geodir-opt-tooltip">Save</span></a>
                                                                 </button> -->
                                                            <!-- </form> -->
-                                                    <a href="#" class="geodir-js-booking"><i class="fal fa-exchange"></i><span
-                                                            class="geodir-opt-tooltip">Find Directions</span></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -190,7 +187,7 @@
 
                                 <% data.flight.forEach( item => { %>
                                     <!-- <form action="/collection" method="post" style="display: inline;"> -->
-                                        <div class="listing-item" data-type="Flight tickets">
+                                        <div class="listing-item hotels-list" data-type="Flight tickets">
                                             <article class="geodir-category-listing fl-wrap">
                                                 <div class="geodir-category-img">
                                                     <a href="listing-single.html"><img src="https://image.freepik.com/free-photo/airplane-taking-off-from-airport_37416-65.jpg" alt=""></a>

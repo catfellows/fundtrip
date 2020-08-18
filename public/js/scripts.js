@@ -1,5 +1,5 @@
 //   all ------------------
-function initEasybook() {
+function initFundtrip() {
   'use strict';
   //   loader ------------------
   $('.loader-wrap').fadeOut(300, function () {
@@ -120,7 +120,7 @@ function initEasybook() {
   $('.stats').appear(function () {
     $('.num').countTo();
   });
-  
+
   //   accordion ------------------
   $('.accordion a.toggle').on('click', function (a) {
     a.preventDefault();
@@ -170,16 +170,11 @@ function initEasybook() {
     $('#message').slideUp(750, function () {
       $('#message').hide();
       $('#submit').attr('disabled', 'disabled');
-      $.post(a, {
-        name: $('#name').val(),
-        email: $('#email').val(),
-        comments: $('#comments').val()
-      }, function (a) {
-        document.getElementById('message').innerHTML = a;
-        $('#message').slideDown('slow');
-        $('#submit').removeAttr('disabled');
-        if (null != a.match('success')) $('#contactform').slideDown('slow');
-      });
+
+      document.getElementById('message').innerHTML = 'Your message has been send ^_^';
+      $('#message').slideDown('slow');
+      $('#submit').removeAttr('disabled');
+      $('#contactform').slideDown('slow');
     });
     return false;
   });
@@ -1109,7 +1104,7 @@ $('.notification-close').on('click', function () {
 });
 //   Init All ------------------
 $(document).ready(function () {
-  initEasybook();
+  initFundtrip();
   initparallax();
 });
 

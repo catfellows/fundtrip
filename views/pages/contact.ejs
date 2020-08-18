@@ -2,151 +2,89 @@
 <div id="wrapper">
     <!-- content-->
     <div class="content">
-        <section id="sec1" class="middle-padding">
+        <!-- map-view-wrap -->
+        <div class="map-view-wrap">
             <div class="container">
-                <form action="/contactus" method="post">
-                    <div class="container-2">
-                        <div class="ques">
-                            <div>
-                                <label for="subject">Subject</label>
-                            </div>
-                            <div>
-                                <input type="text" placeholder=" Type here .." id="subject" name="subject">
-                            </div>
-                        </div>
-                        <div class="ques name">
-                            <div>
-                                <label for="fname">First Name</label>
-                            </div>
-                            <div class="input">
-                                <input type="text" id="fname" placeholder=" Type here .." name="firstname">
-                            </div>
-                        </div>
-                        <div class="ques name">
-                            <div>
-                                <label for="lname">Last Name</label>
-                            </div>
-                            <div>
-                                <input type="text" placeholder=" Type here .." id="lname" name="lastname">
-                            </div>
-                        </div>
-
-                        <div class="ques">
-                            <div>
-                                <label for="Message">Message</label>
-                            </div>
-                            <div>
-                                <textarea id="Message" name="Message" placeholder="Write something.." cols="30"
-                                    rows="10"></textarea>
-                            </div>
-                        </div>
-
+                <div class="map-view-wrap_item">
+                    <div class="list-single-main-item-title fl-wrap">
+                        <h3>Contacts</h3>
                     </div>
-                    <button type="submit" value="Submit"> Submit</button>
-                </form>
-            </div>
-            <div class="address">
-                <iframe width="45%" height="60%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-                    src="https://maps.google.com/maps?q=31.897963,35.868527&hl=en&z=18&amp;output=embed"></iframe>
-                </iframe>
-                <div>
-                    <h2>Address:</h2>
-                    <h2>Phone number:</h2>
+                    <div class="box-widget-list mar-top">
+                        <ul>
+                            <li><span><i class="fal fa-map-marker"></i> Addess :</span> <a href="#">Amman</a></li>
+                            <li><span><i class="fal fa-phone"></i> Phone :</span> <a href="tel:00962768543456">+962-768543456</a></li>
+                            <li><span><i class="fal fa-envelope"></i> Mail :</span> <a href="mailto:info@fundtrip.com">info@fundtrip.com</a>
+                            </li>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list-widget-social">
+                        <ul>
+                            <li><a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-vk"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="map-container fw-map2">
+            <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                src="https://maps.google.com/maps?q=31.3344,34.3223&hl=en&z=14&amp;output=embed">
+            </iframe>
+
+        </div>
+        <section id="sec1" class="grey-b lue-bg middle-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <!--   list-single-main-item -->
+                        <div class="list-single-main-item fl-wrap">
+                            <div class="list-single-main-item-title fl-wrap">
+                                <h3>Fundtrip </h3>
+                            </div>
+                            <div class="list-single-main-media fl-wrap">
+                                <img src="https://image.freepik.com/free-photo/crop-man-pointing-globe-office_23-2147772278.jpg"
+                                    alt="" class="respimg">
+                            </div>
+                            <p>We can provide travel plane for companies with affordable price to any place around the
+                                world</p>
+                        </div>
+                        <!--   list-single-main-item end -->
+                    </div>
+                    <div class="col-md-8">
+                        <div class="list-single-main-item fl-wrap">
+                            <div class="list-single-main-item-title fl-wrap">
+                                <h3>Get In Touch</h3>
+                            </div>
+                            <div id="contact-form">
+                                <div id="message"></div>
+                                <form class="custom-form" action="#" name="contactform" id="contactform">
+                                    <fieldset>
+                                        <label><i class="fal fa-user"></i></label>
+                                        <input type="text" name="name" id="name" placeholder="Your Name *" value="">
+                                        <div class="clearfix"></div>
+                                        <label><i class="fal fa-envelope"></i> </label>
+                                        <input type="text" name="email" id="email" placeholder="Email Address*"
+                                            value="">
+
+                                        <textarea name="comments" id="comments" cols="40" rows="3"
+                                            placeholder="Your Message:"></textarea>
+                                    </fieldset>
+                                    <button class="btn float-btn color2-bg" style="margin-top:15px;" id="submit">Send
+                                        Message<i class="fal fa-angle-right"></i></button>
+                                </form>
+                            </div>
+                            <!-- contact form  end-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-decor"></div>
         </section>
+        <!-- section end -->
     </div>
+    <!-- content end-->
 </div>
-<style>
-    * {
-        font-size: x-large;
-        font-family: 'Nunito', sans-serif;
-    }
-
-    .container-2 {
-
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-content: center;
-    }
-
-    form {
-
-        float: left;
-        width: 50%;
-        text-align: center;
-    }
-
-    .ques {
-        padding: 5%;
-        border: 2px solid #18458B;
-        box-shadow: 5px yellow;
-        padding: 3%;
-        border-radius: 5px;
-        margin-bottom: 2%;
-
-
-    }
-
-    .ques,
-    textarea {
-        background-color: transparent;
-        width: 100%;
-
-    }
-
-    .name {
-        width: 46%;
-        padding: 1%;
-    }
-
-    input,
-    textarea:focus {
-        background-color: transparent;
-        width: 100%;
-        border: none;
-        outline: none;
-    }
-
-    button[type=submit] {
-        background-color: #18458B;
-        border: none;
-        width: 100%;
-        padding: 12px 12px 12px 12px;
-        border-radius: 10px;
-        color: rgb(231, 230, 235);
-    }
-
-    button:active {
-        background-color: #F9B90F;
-    }
-
-    iframe {
-        float: right;
-    }
-
-    @media screen and (max-width:1000px) {
-        .address {
-            margin-top: 30px;
-        }
-
-        .ques {
-            width: 100%;
-        }
-
-        iframe {
-            margin: auto;
-            width: 100%;
-            float: none;
-        }
-
-        form {
-            width: 100%;
-            margin: auto;
-            float: none;
-        }
-    }
-</style>
-
 <%- include('../layout/footer') %>

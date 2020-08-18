@@ -6,7 +6,7 @@
             <div class="list-main-wrap fl-wrap card-listing">
                 <div class="container">
                     <div class="list-main-wrap-title fl-wrap">
-                        <h2>Favourite</h2>
+                        <h2>Favourites</h2>
                     </div>
                     <div class="listing-item-container init-grid-items fl-wrap collection">
                         <% restuarant.forEach( item => { %>
@@ -51,22 +51,17 @@
                                    </ul>
                                     <div class="geodir-category-footer fl-wrap">
                                         <div class="geodir-category-price">Price Level
-                                            <span><%= item.price %></span></div>
+                                            <span><%= item.price_level %></span></div>
                                         <div class="geodir-opt-list">
                                             <a href="https://www.google.com/maps/@<%= item.latitude %>,<%= item.longitude %>,15z" target="_blank" class="map-item"><i class="fal fa-map-marker-alt"></i><span
                                                     class="geodir-opt-tooltip">On the map
                                                     <strong>1</strong></span></a>
-                                            
-
-
-                                                    <form action="/delete?id=<%= item.id %>&_method=DELETE" method="POST" style="display: inline;"
-                                                        >
-
+                                                    <form action="/delete?id=<%= item.id %>&_method=DELETE" method="POST" style="display: inline;margin-right: -50px;">
                                                         <button type="submit" style="border: 0ch; background: transparent; ">
                                                             <a class="geodir-js-favorite"><i class="fal fa-trash"></i><span
                                                                 class="geodir-opt-tooltip">Delete</span></a>
-                                                        </button>
-                                                        </form>
+                                                    </button>
+                                                </form>
                                         </div>
                                     </div>
                                 </div>
