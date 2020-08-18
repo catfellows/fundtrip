@@ -228,6 +228,7 @@ function getFlightPrice(req) {
             destinationLocationCode: req,
             departureDate: '2021-02-01',
             adults: 1,
+         
         }
 
         //  console.log('getFlightPrice ', req);
