@@ -1,0 +1,24 @@
+
+.about-wrap {
+    margin-bottom: 30px
+}
+
+.about-wrap .list-single-main-item-title h3 {
+    font-size: 24px
+}
+
+.about-wrap h4,
+.about-wrap p {
+    text-align: left
+}
+
+.about-wrap h4 {
+    font-size: 16px;
+    padding: 10px 0 0;
+    font-weight: 600;
+    color: #adc7dd
+}
+
+.about-wrap .section-separator {
+    margin-bottom: 5px
+}

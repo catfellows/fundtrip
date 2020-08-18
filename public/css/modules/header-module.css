@@ -1,0 +1,37 @@
+
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    border-bottom: 1px solid rgba(0, 0, 0, .21);
+    -webkit-transform: translate3d(0, 0, 0);
+    height: 110px;
+    background: #18458b
+}
+
+.header-top {
+    height: 60px;
+    border-bottom: 1px solid rgba(0, 0, 0, .21);
+    padding: 0 0 6px 0;
+    z-index: 20
+}
+
+.header-inner {
+    height: 50px;
+    padding: 0 0 6px 0;
+    z-index: 19
+}
+
+.logo-holder {
+    float: left;
+    position: relative;
+    top: 12px;
+    height: 35px
+}
+
+.logo-holder img {
+    height: 100%;
+    width: auto
+}
