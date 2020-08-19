@@ -20,70 +20,29 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({
     extended: true
 }));
-app.use(methodOverride('_method'))
+app.use(methodOverride('_method'));
 
 
+// Route
 app.get('/', handleHome);
-app.get('/about', aboutUs)
+app.get('/about', aboutUs);
 app.get('/flight', getFlightPrice);
-//app.post('/result', getResults);
 app.post('/result', getResults);
 app.get("/contactUs", contact);
 app.post('/contact-us', saveToMess);
-
-
 app.get('/single', singleRestaurant);
 app.get('/contact', contactUs);
-
 app.post('/collection', saveToFav);
 app.get('/collection', collection);
 app.post('/testimonial', addReview);
 app.post('/restRev', addRestRev);
-// app.get('/',selectReview)
-app.delete('/delete', handelDelete)
-
+app.delete('/delete', handelDelete);
 app.get('/hotels', handelHotels);
-
 
 app.get('/*', handleError);
 
-function handelHotels(id, dailyBudget, adult, day) {
 
-    let qs = {
-
-        offset: '0',
-
-        pricesmax: dailyBudget,
-        currency: 'USD',
-        limit: '10',
-        order: 'asc',
-        lang: 'en_US',
-        sort: 'price',
-
-        location_id: id,
-        adults: adult,
-        checkin: '2020-12-15',
-        rooms: '1',
-        nights: day
-
-    };
-
-    let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
-
-    return superagent.get(encodeURI(url))
-        .query(qs)
-        .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
-        .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
-        .set('useQueryString', true)
-        .then(hotelresults => {
-            return hotelresults.body.data.map(e => {
-                return new Hotel(e);
-            })
-            // res.send(hotelresults.body)
-            // res.send(hotel)
-        });
-}
-
+// Handle function for the route
 function contact(req, res) {
     res.render('pages/contact')
 }
@@ -94,15 +53,6 @@ function aboutUs(req, res) {
 
 function contactUs(req, res) {
     res.render('pages/contact');
-}
-
-function saveToMess(req, res) {
-    let data = req.body;
-    let SQL = 'INSERT INTO messages(fname, email, message, subject ) VALUES ($1,$2,$#,$4)';
-    let array = [data.fname, data.email, data.message, data.subject];
-    client.query(SQL, array).then(response => {
-        res.redirect('back');
-    });
 }
 
 function handelLocationresults(req, res) {
@@ -161,11 +111,41 @@ function handleHome(req, res) {
     //   });
 }
 
-function calc (date1, date2) {
-    console.log(date1, date2)
-    let dt1 = new Date(date1);
-    let dt2 = new Date(date2);
-    return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+function handelHotels(id, dailyBudget, adult, day) {
+
+    let qs = {
+
+        offset: '0',
+
+        pricesmax: dailyBudget,
+        currency: 'USD',
+        limit: '10',
+        order: 'asc',
+        lang: 'en_US',
+        sort: 'price',
+
+        location_id: id,
+        adults: adult,
+        checkin: '2020-12-15',
+        rooms: '1',
+        nights: day
+
+    };
+
+    let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
+
+    return superagent.get(encodeURI(url))
+        .query(qs)
+        .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
+        .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
+        .set('useQueryString', true)
+        .then(hotelresults => {
+            return hotelresults.body.data.map(e => {
+                return new Hotel(e);
+            })
+            // res.send(hotelresults.body)
+            // res.send(hotel)
+        });
 }
 
 function getResults(req, res) {
@@ -173,14 +153,14 @@ function getResults(req, res) {
     let budget = req.body.budget;
     let adult = req.body.adults;
     let data = req.body.travel_date.split('-');
-    let day = calc(data[0], data[1]);  
+    let day = calc(data[0], data[1]);
 
-    (async() => {
+    (async () => {
         try {
             let location = await handelLocation(location_id);
             let code = await getcode(req.body.place_name);
             let flight = await getFlightPrice(code, adult) || [];
-            let dailyBudget = (Number(budget) - Number( flight && flight[0] && flight[0].grandTotal || 0)) / day;
+            let dailyBudget = (Number(budget) - Number(flight && flight[0] && flight[0].grandTotal || 0)) / day;
             let restuarant = await getRestaurant(location.location_id, dailyBudget);
             let hotel = await handelHotels(location.location_id, dailyBudget, adult, day);
             console.log(dailyBudget)
@@ -217,8 +197,6 @@ function saveToFav(req, res) {
         res.redirect(`/single?id=${response.rows[0].id}`)
     });
 }
-
-
 
 function getcode(req) {
     let qs = {
@@ -263,7 +241,6 @@ function getFlightPrice(req, adult) {
         //console.log(err)
     }
 }
-
 
 function getRestaurant(location_id, prices_restaurants) {
 
@@ -339,8 +316,6 @@ function handleError(err, res) {
     res.render('error');
 }
 
-
-
 function addReview(req, res) {
 
     let SQL = 'INSERT INTO review (name ,review) VALUES ($1,$2);'
@@ -382,11 +357,17 @@ function addRestRev(req, res) {
         });
 }
 
+function saveToMess(req, res) {
+    let data = req.body;
+    let SQL = 'INSERT INTO messages(fname, email, message, subject ) VALUES ($1,$2,$#,$4)';
+    let array = [data.fname, data.email, data.message, data.subject];
+    client.query(SQL, array).then(response => {
+        res.redirect('back');
+    });
+}
 
 function selectReview() {
-
     let SQL = `select * from review`
-
     return client.query(SQL)
         .then((result) => {
             return (result.rows)
@@ -401,7 +382,6 @@ function selectRestReview(id) {
             return (result.rows)
         })
 }
-
 
 function handelDelete(req, res) {
 
@@ -420,6 +400,13 @@ function handelDelete(req, res) {
         })
 }
 
+// Support function
+function calc(date1, date2) {
+    console.log(date1, date2)
+    let dt1 = new Date(date1);
+    let dt2 = new Date(date2);
+    return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));
+}
 
 // Constructors
 // Location
@@ -449,8 +436,6 @@ function Restaurant(data) {
     this.image = data && data.photo && data.photo.images && data.photo.images.original.url || 'https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png';
 }
 
-// Reviews
-
 // Hotels
 function Hotel(data) {
     this.location = data.location_id;
@@ -466,6 +451,7 @@ function Hotel(data) {
     this.subcategory_type_label = data.subcategory_type_label || '';
     this.photo = data && data.photo && data.photo.images && data.photo.images.original.url || 'https://www.nomadfoods.com/wp-content/uploads/2018/08/placeholder-1-e1533569576673.png';
 }
+
 // Flight
 function Flight(data) {
     this.type = 'flight';
