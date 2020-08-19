@@ -154,19 +154,13 @@ function initFundtrip() {
     $('#message').slideUp(750, function () {
       $('#message').hide();
       $('#submit').attr('disabled', 'disabled');
-      $.post(a, {
-        name: $('#name').val(),
-        email: $('#email').val(),
-        comments: $('#comments').val()
-      }, function (a) {
-        document.getElementById('message').innerHTML = a;
-        $('#message').slideDown('slow');
-        $('#submit').removeAttr('disabled');
-        if (null != a.match('success')) $('#contactform').slideDown('slow');
-      });
+
+      document.getElementById('message').innerHTML = 'Your message has been send ^_^';
+      $('#message').slideDown('slow');
+      $('#submit').removeAttr('disabled');
+      $('#contactform').slideDown('slow');
     });
     return false;
-
   });
   $(document).on('keyup', '#contactform input, #contactform textarea', function () {
     $('#message').slideUp(1500);
