@@ -148,22 +148,6 @@ function initFundtrip() {
     location		: datacityw,
   });
 
-
-
-
-  // twitter ------------------
-  if ($('#footer-twiit').length > 0) {
-    var config1 = {
-      'profile': {
-        'screenName': 'envatomarket'
-      },
-      'domId': 'footer-twiit',
-      'maxTweets': 2,
-      'enableLinks': true,
-      'showImages': false
-    };
-    twitterFetcher.fetch(config1);
-  }
   //   Contact form------------------
   $(document).on('submit', '#contactform', function () {
     var a = $(this).attr('action');
@@ -1114,5 +1098,9 @@ $(document).ready(function () {
   $('#filtre').on('change', function () {
     var elems = this.value == 'all' ? $('.listing-item') : $('.listing-item[data-type="'+this.value+'"]');
     $('.listing-item').not(elems.show()).hide();
+  });
+
+  $('.main-search-button').on('click', function () {
+    $('.loader-wrap').css('display', 'block');
   });
 });
