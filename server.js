@@ -1,5 +1,6 @@
 'use strict';
 require('dotenv').config();
+const fs = require('fs');
 
 // Deefine the constant
 const express = require('express');
@@ -11,7 +12,17 @@ const PORT = process.env.PORT || 3000;
 
 const pg = require('pg');
 app.use(cors());
-const client = new pg.Client(process.env.DATABASE_URL);
+// const client = new pg.Client(process.env.DATABASE_URL);
+const { Client } = require('pg');
+
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: true,
+        ca: fs.readFileSync('./ca.pem').toString(),
+    },
+});
+
 
 
 app.use(express.static('./public'));
@@ -77,14 +88,15 @@ function handelLocation(locationName) {
         units: 'km',
         query: locationName
     }
-    let url = `https://tripadvisor1.p.rapidapi.com/locations/search`;
+    let url = `https://travel-advisor.p.rapidapi.com/locations/search`;
 
-    return superagent.get(encodeURI(url))
+    return superagent.get(url)
         .query(qs)
-        .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
-        .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
+        .set('X-RapidAPI-Host', process.env.X_RAPIDAPI_HOS)
+        .set('X-RapidAPI-Key', process.env.X_RAPIDAPI_KEY)
         .set('useQueryString', true)
         .then(locationReesult => {
+            // console.log(locationReesult.body.data[0].result_object)
 
             return new Location(locationReesult.body.data[0].result_object)
 
@@ -126,20 +138,21 @@ function handelHotels(id, dailyBudget, adult, day) {
 
         location_id: id,
         adults: adult,
-        checkin: '2020-12-15',
+        checkin: '2022-12-15',
         rooms: '1',
         nights: day
 
     };
 
-    let url = "https://tripadvisor1.p.rapidapi.com/hotels/list";
+    let url = "https://travel-advisor.p.rapidapi.com/hotels/list";
 
     return superagent.get(encodeURI(url))
         .query(qs)
-        .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
-        .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
+        .set('X-RapidAPI-Host', process.env.X_RAPIDAPI_HOS)
+        .set('X-RapidAPI-Key', process.env.X_RAPIDAPI_KEY)
         .set('useQueryString', true)
         .then(hotelresults => {
+            // console.log(hotelresults.body)
             return hotelresults.body.data.map(e => {
                 return new Hotel(e);
             })
@@ -159,11 +172,12 @@ function getResults(req, res) {
         try {
             let location = await handelLocation(location_id);
             let code = await getcode(req.body.place_name);
-            let flight = await getFlightPrice(code, adult) || [];
+            let flightToken = await getFlightToken();
+            let flight = await getFlightPrice(code, adult, flightToken) || [];
             let dailyBudget = (Number(budget) - Number(flight && flight[0] && flight[0].grandTotal || 0)) / day;
             let restuarant = await getRestaurant(location.location_id, dailyBudget);
             let hotel = await handelHotels(location.location_id, dailyBudget, adult, day);
-            console.log(dailyBudget)
+            // console.log(location)
             // res.send(hotel)
             res.render('./pages/search_result', {
                 data: {
@@ -202,10 +216,10 @@ function getcode(req) {
     let qs = {
         query: req,
     }
-    let url = "https://tripadvisor1.p.rapidapi.com/airports/search"
+    let url = "https://travel-advisor.p.rapidapi.com/airports/search"
     return superagent.get(url).query(qs)
-        .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
-        .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
+        .set('X-RapidAPI-Host', process.env.X_RAPIDAPI_HOS)
+        .set('X-RapidAPI-Key', process.env.X_RAPIDAPI_KEY)
         .set('useQueryString', true)
         .then(result => {
             return result.body[0].code;
@@ -214,22 +228,39 @@ function getcode(req) {
         });
 }
 
-function getFlightPrice(req, adult) {
+function getFlightToken() {
+    const qs = {
+        "grant_type": "client_credentials",
+        "client_id": process.env.F_CLIENT_ID,
+        "client_secret": process.env.F_CLIENT_KEY
+    }
+    return superagent.post('https://test.api.amadeus.com/v1/security/oauth2/token')
+            .send(qs)
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .then(res => {
+                return res.body.access_token
+            }).catch((err) => {
+                console.log(err.message);
+            });
+}
+
+function getFlightPrice(req, adult, token = '') {
     try {
         let qs = {
             originLocationCode: 'BKK',
             destinationLocationCode: req,
-            departureDate: '2021-02-01',
+            departureDate: '2023-02-01',
             adults: adult,
 
         }
 
-        //  console.log('getFlightPrice ', req);
+        console.log(token)
+        
         let url = `https://test.api.amadeus.com/v2/shopping/flight-offers`;
 
-        return superagent.get(encodeURI(url))
+        return superagent.get(url)
             .query(qs)
-            .set('AUTHORIZATION', `Bearer ${process.env.FLIGHT_API_KEY}`)
+            .set('Authorization', `Bearer ${token}`)
             .then(locationReesult => {
                 return locationReesult.body.data.map(element => {
                     return new Flight(element)
@@ -254,7 +285,7 @@ function getRestaurant(location_id, prices_restaurants) {
         price_level = '10955';
     }
 
-    console.log('Pricee Level: ', price_level);
+    // console.log('Pricee Level: ', price_level);
     let qs = {
         lunit: 'km',
         limit: '10',
@@ -264,12 +295,12 @@ function getRestaurant(location_id, prices_restaurants) {
         location_id: location_id
     }
 
-    let url = `https://tripadvisor1.p.rapidapi.com/restaurants/list`;
+    let url = `https://travel-advisor.p.rapidapi.com/restaurants/list`;
 
     return superagent.get(encodeURI(url))
         .query(qs)
-        .set('x-rapidapi-hos', process.env.X_RAPIDAPI_HOS)
-        .set('x-rapidapi-key', process.env.X_RAPIDAPI_KEY)
+        .set('X-RapidAPI-Host', process.env.X_RAPIDAPI_HOS)
+        .set('X-RapidAPI-Key', process.env.X_RAPIDAPI_KEY)
         .set('useQueryString', true)
         .then(restaurantResult => {
             return restaurantResult.body.data.map((e) => {
@@ -323,7 +354,7 @@ function addReview(req, res) {
     let $2 = req.body.reviewe;
     let values = [$1, $2];
 
-    console.log(req.body)
+    // console.log(req.body)
 
     return client.query(SQL, values)
         .then(() => {
@@ -346,7 +377,7 @@ function addRestRev(req, res) {
 
     let values = [$1, $2, $3, $4, $5];
 
-    console.log(req.body)
+    // console.log(req.body)
 
     return client.query(SQL, values)
         .then(() => {
@@ -387,7 +418,7 @@ function handelDelete(req, res) {
 
     let SQL = 'delete from favorite where id=$1;';
     let id = [req.query.id];
-    console.log(id)
+    // console.log(id)
 
     return client.query(SQL, id)
         .then(() => {
@@ -402,7 +433,7 @@ function handelDelete(req, res) {
 
 // Support function
 function calc(date1, date2) {
-    console.log(date1, date2)
+    // console.log(date1, date2)
     let dt1 = new Date(date1);
     let dt2 = new Date(date2);
     return Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24));

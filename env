@@ -1,4 +1,13 @@
 PORT=3000
-FLIGHT_API_KEY=ALZSvd8yrlNR4PPp1sGlum2xAGFE
-X_RAPIDAPI_HOS=tripadvisor1.p.rapidapi.com
-X_RAPIDAPI_KEY=17b4c35337mshcca2a4e363e9166p1b9820jsnfac672d7cc8d
+FLIGHT_API_KEY=CpjU0sEenniHCgPDrndzOSWFk5mN
+X_RAPIDAPI_HOS=travel-advisor.p.rapidapi.com
+X_RAPIDAPI_KEY=dcb3f10824msh59a7cd80bb8b43ap1d2b6bjsn1628800ca361
+PG_HOST=mr-code.com
+PG_PORT=5432
+PG_USER=mrcodeco_waleed
+PG_PASSWORD=RfkjLx5bXZ6V
+PG_DATABASE=mrcodeco_fundtrip
+# DATABASE_URL=postgres://waleedafifi:QAZWSX,gd]1990@localhost/postgres
+DATABASE_URL=postgres://avnadmin:AVNS_5yBKqqXHp8Sqiact5hJ@pg-15a5cf4-waleedafici-31e5.aivencloud.com:10516/defaultdb
+F_CLIENT_ID=K7mHD6ltXaEjohMOkK7u5WEABDSWLqKn
+F_CLIENT_KEY=g6VrrmSHap0egbV7
